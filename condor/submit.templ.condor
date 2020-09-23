@@ -1,0 +1,13 @@
+universe = vanilla
+Executable = DIRECTORY/PREFIX.sh
+Requirements   =  OpSys == "LINUX" && (Arch != "DUMMY")
+Should_Transfer_Files = YES
+WhenToTransferOutput = ON_EXIT
+Output = DIRECTORY/PREFIX.stdout
+Error = DIRECTORY/PREFIX.stderr
+Log = DIRECTORY/PREFIX.condor.log
+notification = Never
+request_memory = 3500
+use_x509userproxy = true
+x509userproxy = /uscms/home/jennetd/x509up_u46881
+Queue 1
