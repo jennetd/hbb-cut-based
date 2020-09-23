@@ -85,7 +85,7 @@ def main():
     args = {'nano': True, 'workers': 4, 'savemetrics': True}
  
     this_file = 'infiles/'+year+'_'+sample+'.json'
-    out, metrics = processor.run_uproot_job(this_file, 'Events', p, processor.futures_executor, args)
+    out, metrics = processor.run_uproot_job(this_file, 'Events', p, processor.futures_executor, args, chunksize=50000)
 
     outfile = 'outfiles/'+year+'_'+sample+'.coffea'
     util.save(out, outfile)
