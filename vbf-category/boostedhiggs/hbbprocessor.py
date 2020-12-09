@@ -99,14 +99,13 @@ class HbbProcessor(processor.ProcessorABC):
                 hist.Bin('n2ddt', 'N2ddt value', 40, -0.25, 0.25),
             ),
             'btagWeight': hist.Hist('Events', hist.Cat('dataset', 'Dataset'), hist.Bin('val', 'BTag correction', 50, 0, 3)),
-            'templatesVBF': hist.Hist(
+            'templates1': hist.Hist(
                 'Events',
                 hist.Cat('dataset', 'Dataset'),
                 hist.Cat('region', 'Region'),
                 hist.Bin('pt1', r'Jet 1 $p_{T}$ [GeV]', [450, 500, 550, 600, 675, 800, 1200]),
-                hist.Bin('ddb1', r'Jet 1 ddb score', [0, 0.89, 1]),
                 hist.Bin('msd1', r'Jet 1 $m_{sd}$', 23, 40, 201),
-                hist.Bin('rho1',r'Jet 1 rho', 20, -6.5, -1.5),
+                hist.Bin('ddb1', r'Jet 1 ddb score', [0, 0.89, 1]),
                 hist.Bin('deta', r'$\Delta\eta_{jj}$', 1, 3.5, 7),
                 hist.Bin('mjj',r'$m_{jj}$ [GeV]', 1, 1000, 4000)
             ),
@@ -294,7 +293,7 @@ class HbbProcessor(processor.ProcessorABC):
         msd2_matched = secondjet.msdcorr * self._msdSF[self._year] * (genflavor > 0) + secondjet.msdcorr * (genflavor == 0)
 
         regions = {
-            'signal': ['trigger', 'minjetkin', 'jetacceptance', 'jetid', 'n2ddt', 'antiak4btagMediumOppHem', 'met', 'noleptons'],
+            'signal': ['trigger', 'minjetkin', 'jetacceptance', 'jetid', 'n2ddt', 'antiak4btagMediumOppHem', 'met', 'noleptons', 'deta', 'mjj'],
             'muoncontrol': ['muontrigger', 'minjetkin', 'jetacceptance', 'jetid', 'n2ddt', 'ak4btagMedium08', 'onemuon', 'muonkin', 'muonDphiAK8'],
             'noselection': [],
         }
@@ -330,13 +329,12 @@ class HbbProcessor(processor.ProcessorABC):
             else:
                 weight = weights.weight()[cut] * wmod[cut]
 
-            output['templatesVBF'].fill(
+            output['templates1'].fill(
                 dataset=dataset,
                 region=region,
                 pt1=normalize(candidatejet.pt, cut),
-                ddb1=normalize(candidatejet.btagDDBvL, cut),
                 msd1=normalize(msd_matched, cut),
-                rho1=normalize(candidatejet.rho, cut),
+                ddb1=normalize(candidatejet.btagDDBvL, cut),
                 deta=normalize(deta, cut),
                 mjj=normalize(mjj, cut),
                 weight=weight,

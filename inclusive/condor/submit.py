@@ -14,7 +14,7 @@ loc_base = os.environ['PWD']
 logdir = 'test'
 
 tag = 'inclusive'
-homedir = '/store/user/jennetd/november-2020/'+tag
+homedir = '/store/user/jennetd/december-2020/'+tag
 outdir = homedir + '/outfiles/'
 
 os.chdir('..')
@@ -40,7 +40,7 @@ os.system('mkdir -p /eos/uscms'+outdir)
 nsubmit = 0
 
 nfiles = {}
-nfiles['2016'] = 43
+nfiles['2016'] = 39
 nfiles['2017'] = 43
 nfiles['2018'] = 51
 
