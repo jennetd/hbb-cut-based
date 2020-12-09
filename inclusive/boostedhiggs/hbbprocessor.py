@@ -99,14 +99,13 @@ class HbbProcessor(processor.ProcessorABC):
                 hist.Bin('n2ddt', 'N2ddt value', 40, -0.25, 0.25),
             ),
             'btagWeight': hist.Hist('Events', hist.Cat('dataset', 'Dataset'), hist.Bin('val', 'BTag correction', 50, 0, 3)),
-            'templates': hist.Hist(
+            'templates1': hist.Hist(
                 'Events',
                 hist.Cat('dataset', 'Dataset'),
                 hist.Cat('region', 'Region'),
                 hist.Bin('pt1', r'Jet 1 $p_{T}$ [GeV]', [450, 500, 550, 600, 675, 800, 1200]),
-                hist.Bin('rho1',r'Jet 1 $\rho$', 3, -6.0, -2.1),
-                hist.Bin('ddb1', r'Jet 1 ddb score', [0, 0.89, 1]),
                 hist.Bin('msd1', r'Jet 1 $m_{sd}$', 23, 40, 201),
+                hist.Bin('ddb1', r'Jet 1 ddb score', [0, 0.89, 1]),
             ),
             'genresponse_noweight': hist.Hist(
                 'Events',
@@ -170,8 +169,6 @@ class HbbProcessor(processor.ProcessorABC):
             (fatjets.pt > 200)
             & (abs(fatjets.eta) < 2.5)
             & fatjets.isTight  # this is loose in sampleContainer
-            & (fatjets.rho > -6.0)
-            & (fatjets.rho < -2.1)
         ]
 
         nfatjets = candidatejet[:].counts
@@ -216,6 +213,7 @@ class HbbProcessor(processor.ProcessorABC):
             & events.Jet.isTight
         ]
         # only consider first 4 jets to be consistent with old framework
+        njets = jets[:].counts
         jets = jets[:, :4]
         ak4_ak8_pair = jets.cross(candidatejet, nested=True)
         dphi = abs(ak4_ak8_pair.i0.delta_phi(ak4_ak8_pair.i1))
@@ -227,8 +225,19 @@ class HbbProcessor(processor.ProcessorABC):
 
         selection.add('met', events.MET.pt < 140.)
 
-#        selection.add('deta', (deta > 3.5).any())
-#        selection.add('mjj', (mjj > 1000.).any())
+        dR = np.sqrt(dphi*dphi + deta*deta)
+        ak4_outside_ak8 = jets[(dR > 0.8).all()]
+
+        jet1 = ak4_outside_ak8[:, 0:1]
+        jet2 = ak4_outside_ak8[:, 1:2]
+
+        ak4_pair = jet1.cross(jet2, nested=False)
+
+        # redefine deta to be between ak4 jets
+        deta = abs(ak4_pair.i0.eta - ak4_pair.i1.eta)
+        mjj = (ak4_pair.i0+ak4_pair.i1).mass
+        qgl1 = jet1.qgl
+        qgl2 = jet2.qgl
 
         goodmuon = (
             (events.Muon.pt > 10)
@@ -315,13 +324,12 @@ class HbbProcessor(processor.ProcessorABC):
             else:
                 weight = weights.weight()[cut] * wmod[cut]
 
-            output['templates'].fill(
+            output['templates1'].fill(
                 dataset=dataset,
                 region=region,
                 pt1=normalize(candidatejet.pt, cut),
-                rho1=normalize(candidatejet.rho, cut),
-                ddb1=normalize(candidatejet.btagDDBvL, cut),
                 msd1=normalize(msd_matched, cut),
+                ddb1=normalize(candidatejet.btagDDBvL, cut),
                 weight=weight,
             )
             if wmod is not None:
