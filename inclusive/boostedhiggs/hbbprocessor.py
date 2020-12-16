@@ -85,13 +85,13 @@ class HbbProcessor(processor.ProcessorABC):
         self._accumulator = processor.dict_accumulator({
             # dataset -> sumw
             'sumw': processor.defaultdict_accumulator(float),
-            'cutflow': hist.Hist(
-                'Events',
-                hist.Cat('dataset', 'Dataset'),
-                hist.Cat('region', 'Region'),
-                hist.Bin('genflavor', 'Gen. jet flavor', [0, 1, 2, 3, 4]),
-                hist.Bin('cut', 'Cut index', 11, 0, 11),
-            ),
+#            'cutflow': hist.Hist(
+#                'Events',
+#                hist.Cat('dataset', 'Dataset'),
+#                hist.Cat('region', 'Region'),
+#                hist.Bin('genflavor', 'Gen. jet flavor', [0, 1, 2, 3, 4]),
+#                hist.Bin('cut', 'Cut index', 11, 0, 11),
+#            ),
             'nminus1_n2ddt': hist.Hist(
                 'Events',
                 hist.Cat('dataset', 'Dataset'),
@@ -103,9 +103,9 @@ class HbbProcessor(processor.ProcessorABC):
                 'Events',
                 hist.Cat('dataset', 'Dataset'),
                 hist.Cat('region', 'Region'),
-                hist.Bin('pt1', r'Jet 1 $p_{T}$ [GeV]', [450, 500, 550, 600, 675, 800, 1200]),
-                hist.Bin('msd1', r'Jet 1 $m_{sd}$', 23, 40, 201),
-                hist.Bin('ddb1', r'Jet 1 ddb score', [0, 0.89, 1]),
+                hist.Bin('pt1', r'Jet $p_{T}$ [GeV]', [450, 500, 550, 600, 675, 800, 1200]),
+                hist.Bin('msd1', r'Jet $m_{sd}$', 22, 47, 201),
+                hist.Bin('ddb1', r'Jet ddb score', [0, 0.89, 1]),
             ),
             'genresponse_noweight': hist.Hist(
                 'Events',
@@ -132,6 +132,7 @@ class HbbProcessor(processor.ProcessorABC):
     def process(self, events):
         dataset = events.metadata['dataset']
         isRealData = 'genWeight' not in events.columns
+
         selection = processor.PackedSelection()
         weights = processor.Weights(len(events))
         output = self.accumulator.identity()
@@ -170,18 +171,12 @@ class HbbProcessor(processor.ProcessorABC):
             & (abs(fatjets.eta) < 2.5)
             & fatjets.isTight  # this is loose in sampleContainer
         ]
-
-        nfatjets = candidatejet[:].counts
-
         if self._jet_arbitration == 'pt':
-            secondjet = candidatejet[:, 1:2]
             candidatejet = candidatejet[:, 0:1]
         elif self._jet_arbitration == 'mass':
-            idx = (candidatejet.msdcorr).argsort()
-            idx0 = idx[:,0:1]
-            idx1 = idx[:,1:2]
-            secondjet = candidatejet[idx1]
-            candidatejet = candidatejet[idx0]
+            candidatejet = candidatejet[
+                candidatejet.msdcorr.argmax()
+            ]
         elif self._jet_arbitration == 'n2':
             candidatejet = candidatejet[
                 candidatejet.n2ddt.argmin()
@@ -192,7 +187,6 @@ class HbbProcessor(processor.ProcessorABC):
             ]
         else:
             raise RuntimeError("Unknown candidate jet arbitration")
-
         selection.add('minjetkin', (
             (candidatejet.pt >= 450)
             & (candidatejet.msdcorr >= 40.)
@@ -209,35 +203,19 @@ class HbbProcessor(processor.ProcessorABC):
 
         jets = events.Jet[
             (events.Jet.pt > 30.)
-            & (abs(events.Jet.eta) < 5.0)
+            & (abs(events.Jet.eta) < 2.5)
             & events.Jet.isTight
         ]
         # only consider first 4 jets to be consistent with old framework
-        njets = jets[:].counts
         jets = jets[:, :4]
         ak4_ak8_pair = jets.cross(candidatejet, nested=True)
         dphi = abs(ak4_ak8_pair.i0.delta_phi(ak4_ak8_pair.i1))
-        deta = abs(ak4_ak8_pair.i0.eta - ak4_ak8_pair.i1.eta)
         ak4_opposite = jets[(dphi > np.pi / 2).all()]
         selection.add('antiak4btagMediumOppHem', ak4_opposite.btagDeepB.max() < BTagEfficiency.btagWPs[self._year]['medium'])
         ak4_away = jets[(dphi > 0.8).all()]
         selection.add('ak4btagMedium08', ak4_away.btagDeepB.max() > BTagEfficiency.btagWPs[self._year]['medium'])
 
         selection.add('met', events.MET.pt < 140.)
-
-        dR = np.sqrt(dphi*dphi + deta*deta)
-        ak4_outside_ak8 = jets[(dR > 0.8).all()]
-
-        jet1 = ak4_outside_ak8[:, 0:1]
-        jet2 = ak4_outside_ak8[:, 1:2]
-
-        ak4_pair = jet1.cross(jet2, nested=False)
-
-        # redefine deta to be between ak4 jets
-        deta = abs(ak4_pair.i0.eta - ak4_pair.i1.eta)
-        mjj = (ak4_pair.i0+ak4_pair.i1).mass
-        qgl1 = jet1.qgl
-        qgl2 = jet2.qgl
 
         goodmuon = (
             (events.Muon.pt > 10)
@@ -285,7 +263,6 @@ class HbbProcessor(processor.ProcessorABC):
             logger.debug("Weight statistics: %r" % weights._weightStats)
 
         msd_matched = candidatejet.msdcorr * self._msdSF[self._year] * (genflavor > 0) + candidatejet.msdcorr * (genflavor == 0)
-        msd2_matched = secondjet.msdcorr * self._msdSF[self._year] * (genflavor > 0) + secondjet.msdcorr * (genflavor == 0)
 
         regions = {
             'signal': ['trigger', 'minjetkin', 'jetacceptance', 'jetid', 'n2ddt', 'antiak4btagMediumOppHem', 'met', 'noleptons'],
@@ -293,14 +270,14 @@ class HbbProcessor(processor.ProcessorABC):
             'noselection': [],
         }
 
-        for region, cuts in regions.items():
-            allcuts = set()
-            logger.debug(f"Filling cutflow with: {dataset}, {region}, {genflavor}, {weights.weight()}")
-            output['cutflow'].fill(dataset=dataset, region=region, genflavor=genflavor, cut=0, weight=weights.weight())
-            for i, cut in enumerate(cuts + ['ddbpass']):
-                allcuts.add(cut)
-                cut = selection.all(*allcuts)
-                output['cutflow'].fill(dataset=dataset, region=region, genflavor=genflavor[cut], cut=i + 1, weight=weights.weight()[cut])
+#        for region, cuts in regions.items():
+#            allcuts = set()
+#            logger.debug(f"Filling cutflow with: {dataset}, {region}, {genflavor}, {weights.weight()}")
+#            output['cutflow'].fill(dataset=dataset, region=region, genflavor=genflavor, cut=0, weight=weights.weight())
+#            for i, cut in enumerate(cuts + ['ddbpass']):
+#                allcuts.add(cut)
+#                cut = selection.all(*allcuts)
+#                output['cutflow'].fill(dataset=dataset, region=region, genflavor=genflavor[cut], cut=i + 1, weight=weights.weight()[cut])
 
         systematics = [
             None,
@@ -358,7 +335,7 @@ class HbbProcessor(processor.ProcessorABC):
                 n2ddt=normalize(candidatejet.n2ddt, cut),
                 weight=weights.weight()[cut],
             )
-            for systematic in [None]: #systematics:
+            for systematic in systematics:
                 fill(region, systematic)
 #            if 'GluGluHToBB' in dataset:
 #                for i in range(9):

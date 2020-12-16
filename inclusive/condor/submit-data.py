@@ -11,14 +11,15 @@ import glob
 script = 'process.py'
 
 loc_base = os.environ['PWD']
-logdir = 'test'
+logdir = 'logs-data'
 
 tag = 'inclusive'
 homedir = '/store/user/jennetd/december-2020/'+tag
-outdir = homedir + '/outfiles/'
+indir = homedir + '/indata/'
+outdir = homedir + '/outdata/'
 
 os.chdir('..')
-os.system('xrdcp -rf infiles/ root://cmseos.fnal.gov/'+homedir)
+os.system('xrdcp -rf indata/ root://cmseos.fnal.gov/'+homedir)
 os.system('xrdcp -f '+script+' root://cmseos.fnal.gov/'+homedir)
 #os.system('tar -zcf boostedhiggs.tar.gz boostedhiggs --exclude="*.root" --exclude="*.pdf" --exclude="*.pyc" --exclude=tmp --exclude="*.tgz" --exclude="*.ipynb" --exclude-vcs --exclude-caches-all')
 os.system('xrdcp -f boostedhiggs.tar.gz root://cmseos.fnal.gov/'+homedir)
@@ -40,9 +41,9 @@ os.system('mkdir -p /eos/uscms'+outdir)
 nsubmit = 0
 
 nfiles = {}
-nfiles['2016'] = 39
-nfiles['2017'] = 43
-nfiles['2018'] = 51
+nfiles['2016'] = 16
+nfiles['2017'] = 19
+nfiles['2018'] = 27
 
 for year in ['2016','2017','2018']:
     for f in range(1,nfiles[year]+1):
@@ -74,6 +75,7 @@ for year in ['2016','2017','2018']:
             line=line.replace('YEAR',year)
             line=line.replace('SAMPLE',str(f))
             line=line.replace('EOSDIR',homedir)
+            line=line.replace('EOSINDIR',indir)
             line=line.replace('EOSOUT',eosoutput)
             sh_file.write(line)
         sh_file.close()
