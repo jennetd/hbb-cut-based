@@ -85,13 +85,13 @@ class HbbProcessor(processor.ProcessorABC):
         self._accumulator = processor.dict_accumulator({
             # dataset -> sumw
             'sumw': processor.defaultdict_accumulator(float),
-#            'cutflow': hist.Hist(
-#                'Events',
-#                hist.Cat('dataset', 'Dataset'),
-#                hist.Cat('region', 'Region'),
-#                hist.Bin('genflavor', 'Gen. jet flavor', [0, 1, 2, 3, 4]),
-#                hist.Bin('cut', 'Cut index', 11, 0, 11),
-#            ),
+            'cutflow': hist.Hist(
+                'Events',
+                hist.Cat('dataset', 'Dataset'),
+                hist.Cat('region', 'Region'),
+                hist.Bin('genflavor', 'Gen. jet flavor', [0, 1, 2, 3, 4]),
+                hist.Bin('cut', 'Cut index', 11, 0, 11),
+            ),
             'nminus1_n2ddt': hist.Hist(
                 'Events',
                 hist.Cat('dataset', 'Dataset'),
@@ -270,14 +270,17 @@ class HbbProcessor(processor.ProcessorABC):
             'noselection': [],
         }
 
-#        for region, cuts in regions.items():
-#            allcuts = set()
-#            logger.debug(f"Filling cutflow with: {dataset}, {region}, {genflavor}, {weights.weight()}")
-#            output['cutflow'].fill(dataset=dataset, region=region, genflavor=genflavor, cut=0, weight=weights.weight())
-#            for i, cut in enumerate(cuts + ['ddbpass']):
-#                allcuts.add(cut)
-#                cut = selection.all(*allcuts)
-#                output['cutflow'].fill(dataset=dataset, region=region, genflavor=genflavor[cut], cut=i + 1, weight=weights.weight()[cut])
+        for region, cuts in regions.items():
+            allcuts = set()
+            if isRealData: 
+                continue
+
+            logger.debug(f"Filling cutflow with: {dataset}, {region}, {genflavor}, {weights.weight()}")
+            output['cutflow'].fill(dataset=dataset, region=region, genflavor=genflavor, cut=0, weight=weights.weight())
+            for i, cut in enumerate(cuts + ['ddbpass']):
+                allcuts.add(cut)
+                cut = selection.all(*allcuts)
+                output['cutflow'].fill(dataset=dataset, region=region, genflavor=genflavor[cut], cut=i + 1, weight=weights.weight()[cut])
 
         systematics = [
             None,
@@ -337,11 +340,6 @@ class HbbProcessor(processor.ProcessorABC):
             )
             for systematic in systematics:
                 fill(region, systematic)
-#            if 'GluGluHToBB' in dataset:
-#                for i in range(9):
-#                    fill(region, 'LHEScale_%d' % i, events.LHEScaleWeight[:, i])
-#                for c in events.LHEWeight.columns[1:]:
-#                    fill(region, 'LHEWeight_%s' % c, events.LHEWeight[c])
 
         return output
 
