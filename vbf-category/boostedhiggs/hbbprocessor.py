@@ -103,11 +103,22 @@ class HbbProcessor(processor.ProcessorABC):
                 'Events',
                 hist.Cat('dataset', 'Dataset'),
                 hist.Cat('region', 'Region'),
-                hist.Bin('pt1', r'Jet 1 $p_{T}$ [GeV]', [450, 500, 550, 600, 675, 800, 1200]),
+                hist.Bin('pt1', r'Jet $p_{T}$ [GeV]', [450, 500, 550, 600, 675, 800, 1200]),
                 hist.Bin('msd1', r'Jet 1 $m_{sd}$', 23, 40, 201),
                 hist.Bin('ddb1', r'Jet 1 ddb score', [0, 0.89, 1]),
                 hist.Bin('deta', r'$\Delta\eta_{jj}$', 1, 3.5, 7),
                 hist.Bin('mjj',r'$m_{jj}$ [GeV]', 1, 1000, 4000)
+            ),
+            'templates2': hist.Hist(
+                'Events',
+                hist.Cat('dataset', 'Dataset'),
+                hist.Cat('region', 'Region'),
+                hist.Bin('msd1', r'Jet 1 $m_{sd}$', 23, 40, 201),
+                hist.Bin('ddb1', r'Jet 1 ddb score', [0, 0.89, 1]),
+                hist.Bin('deta', r'$\Delta\eta_{jj}$', 14, 0, 7),
+                hist.Bin('mjj', r'$m_{jj}$', 20, 0, 4000),
+                hist.Bin('qgl1', r'AK4 jet 1 QGL',5,0,1),
+                hist.Bin('qgl2', r'AK4 jet 2 QGL',5,0,1),
             ),
             'genresponse_noweight': hist.Hist(
                 'Events',
@@ -290,16 +301,18 @@ class HbbProcessor(processor.ProcessorABC):
             logger.debug("Weight statistics: %r" % weights._weightStats)
 
         msd_matched = candidatejet.msdcorr * self._msdSF[self._year] * (genflavor > 0) + candidatejet.msdcorr * (genflavor == 0)
-        msd2_matched = secondjet.msdcorr * self._msdSF[self._year] * (genflavor > 0) + secondjet.msdcorr * (genflavor == 0)
 
         regions = {
-            'signal': ['trigger', 'minjetkin', 'jetacceptance', 'jetid', 'n2ddt', 'antiak4btagMediumOppHem', 'met', 'noleptons', 'deta', 'mjj'],
+            'signal': ['trigger', 'minjetkin', 'jetacceptance', 'jetid', 'n2ddt', 'antiak4btagMediumOppHem', 'met', 'noleptons'],
             'muoncontrol': ['muontrigger', 'minjetkin', 'jetacceptance', 'jetid', 'n2ddt', 'ak4btagMedium08', 'onemuon', 'muonkin', 'muonDphiAK8'],
             'noselection': [],
         }
 
         for region, cuts in regions.items():
             allcuts = set()
+            if isRealData:
+                continue
+
             logger.debug(f"Filling cutflow with: {dataset}, {region}, {genflavor}, {weights.weight()}")
             output['cutflow'].fill(dataset=dataset, region=region, genflavor=genflavor, cut=0, weight=weights.weight())
             for i, cut in enumerate(cuts + ['ddbpass']):
@@ -337,6 +350,17 @@ class HbbProcessor(processor.ProcessorABC):
                 ddb1=normalize(candidatejet.btagDDBvL, cut),
                 deta=normalize(deta, cut),
                 mjj=normalize(mjj, cut),
+                weight=weight,
+            )
+            output['templates2'].fill(
+                dataset=dataset,
+                region=region,
+                msd1=normalize(msd_matched, cut),
+                ddb1=normalize(candidatejet.btagDDBvL, cut),
+                deta=normalize(deta, cut),
+                mjj=normalize(mjj, cut),
+                qgl1=normalize(qgl1, cut),
+                qgl2=normalize(qgl2, cut),
                 weight=weight,
             )
             if wmod is not None:

@@ -41,11 +41,12 @@ os.system('mkdir -p /eos/uscms'+outdir)
 nsubmit = 0
 
 nfiles = {}
-nfiles['2016'] = 40
-nfiles['2017'] = 44
-nfiles['2018'] = 53
 
-for year in ['2016','2017','2018']:
+nfiles['2016'] = 64
+nfiles['2017'] = 89
+nfiles['2018'] = 106
+
+for year in ['2018']: #['2016','2017','2018']:
     for f in range(1,nfiles[year]+1):
 
         prefix = year+'_'+str(f)

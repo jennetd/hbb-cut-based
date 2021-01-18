@@ -12,7 +12,7 @@ xrdcp root://cmseos.fnal.gov/EOSDIR/SCRIPTNAME .
 
 # make dir for input/output
 mkdir infiles
-xrdcp root://cmseos.fnal.gov/EOSDIR/infiles/YEAR_SAMPLE.json infiles
+xrdcp root://cmseos.fnal.gov/EOSINDIR/YEAR_SAMPLE.json infiles
 mkdir outfiles
 
 # run code
