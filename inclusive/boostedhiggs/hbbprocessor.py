@@ -40,6 +40,7 @@ class HbbProcessor(processor.ProcessorABC):
         self._muontriggers = {
             '2016': [
                 'Mu50',  # TODO: check
+                'TkMu50',
             ],
             '2017': [
                 'Mu50',
@@ -47,6 +48,7 @@ class HbbProcessor(processor.ProcessorABC):
             ],
             '2018': [
                 'Mu50',  # TODO: check
+                'TkMu50',
             ],
         }
 
@@ -77,7 +79,7 @@ class HbbProcessor(processor.ProcessorABC):
                 'PFHT1050',
                 'PFJet500',
                 'AK8PFJet500',
-                # 'AK8PFJet330_PFAK8BTagCSV_p17', not present in 2018D?
+                'AK8PFJet330_PFAK8BTagCSV_p17', 
                 'AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np4',
             ],
         }
@@ -138,11 +140,14 @@ class HbbProcessor(processor.ProcessorABC):
         output = self.accumulator.identity()
         if not isRealData:
             output['sumw'][dataset] += events.genWeight.sum()
-
+        
         if isRealData:
             trigger = np.zeros(events.size, dtype='bool')
             for t in self._triggers[self._year]:
-                trigger = trigger | events.HLT[t]
+                try:
+                    trigger = trigger | events.HLT[t]
+                except:
+                    print("No trigger " + t + " in file")
         else:
             trigger = np.ones(events.size, dtype='bool')
         selection.add('trigger', trigger)
@@ -150,7 +155,10 @@ class HbbProcessor(processor.ProcessorABC):
         if isRealData:
             trigger = np.zeros(events.size, dtype='bool')
             for t in self._muontriggers[self._year]:
-                trigger = trigger | events.HLT[t]
+                try:
+                    trigger = trigger | events.HLT[t]
+                except:
+                    print("No trigger "+ t + " in file")
         else:
             trigger = np.ones(events.size, dtype='bool')
         selection.add('muontrigger', trigger)
