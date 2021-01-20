@@ -41,9 +41,9 @@ os.system('mkdir -p /eos/uscms'+outdir)
 nsubmit = 0
 
 nfiles = {}
-nfiles['2016'] = 16
-nfiles['2017'] = 19
-nfiles['2018'] = 27
+nfiles['2016'] = 23
+nfiles['2017'] = 25
+nfiles['2018'] = 29
 
 for year in ['2016','2017','2018']:
     for f in range(1,nfiles[year]+1):
