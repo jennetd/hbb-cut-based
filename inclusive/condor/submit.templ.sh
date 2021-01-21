@@ -9,6 +9,8 @@ source coffeaenv/bin/activate
 xrdcp root://cmseos.fnal.gov/EOSDIR/boostedhiggs.tar.gz .
 tar -zxvf boostedhiggs.tar.gz 
 xrdcp root://cmseos.fnal.gov/EOSDIR/SCRIPTNAME .
+xrdcp root://cmseos.fnal.gov/EOSDIR/triggers.json .
+xrdcp root://cmseos.fnal.gov/EOSDIR/muon_triggers.json .
 
 # make dir for input/output
 mkdir infiles

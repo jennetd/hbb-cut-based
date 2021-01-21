@@ -21,7 +21,8 @@ outdir = homedir + '/outfiles/'
 os.chdir('..')
 os.system('xrdcp -rf infiles/ root://cmseos.fnal.gov/'+homedir)
 os.system('xrdcp -f '+script+' root://cmseos.fnal.gov/'+homedir)
-#os.system('tar -zcf boostedhiggs.tar.gz boostedhiggs --exclude="*.root" --exclude="*.pdf" --exclude="*.pyc" --exclude=tmp --exclude="*.tgz" --exclude="*.ipynb" --exclude-vcs --exclude-caches-all')
+os.system('xrdcp -f muon_triggers.json root://cmseos.fnal.gov/'+homedir)
+os.system('xrdcp -f triggers.json root://cmseos.fnal.gov/'+homedir)
 os.system('xrdcp -f boostedhiggs.tar.gz root://cmseos.fnal.gov/'+homedir)
 os.system('xrdcp -f coffeaenv.tar.gz root://cmseos.fnal.gov/'+homedir)
 os.chdir(loc_base)
@@ -46,7 +47,7 @@ nfiles['2016'] = 64
 nfiles['2017'] = 89
 nfiles['2018'] = 106
 
-for year in ['2018']: #['2016','2017','2018']:
+for year in ['2016','2017','2018']:
     for f in range(1,nfiles[year]+1):
 
         prefix = year+'_'+str(f)

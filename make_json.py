@@ -9,6 +9,55 @@ import awkward as ak
 import numpy as np
 import matplotlib.pyplot as plt
 
+def get_muontriggers():
+    muontriggers = {
+        '2016': [ 'Mu50', 'TkMu50' ],
+        '2017': [ 'Mu50' ],
+        '2018': [ 'Mu50' ],
+    }
+
+    with open('muon_triggers.json', 'w') as outfile:
+        json.dump(muontriggers, outfile)
+
+    return
+
+def get_triggers():
+    triggers = {
+        '2016': [
+            'PFHT800',
+            'PFHT900',
+            'AK8PFJet360_TrimMass30',
+            'AK8PFHT700_TrimR0p1PT0p03Mass50',
+            'PFHT650_WideJetMJJ950DEtaJJ1p5',
+            'PFHT650_WideJetMJJ900DEtaJJ1p5',
+            'AK8DiPFJet280_200_TrimMass30_BTagCSV_p20',
+            'PFJet450',
+        ],
+        '2017': [
+            'AK8PFJet330_PFAK8BTagCSV_p17',
+            'PFHT1050',
+            'AK8PFJet400_TrimMass30',
+            'AK8PFJet420_TrimMass30',
+            'AK8PFHT800_TrimMass50',
+            'PFJet500',
+            'AK8PFJet500',
+        ],
+        '2018': [
+            'AK8PFJet400_TrimMass30',
+            'AK8PFJet420_TrimMass30',
+            'AK8PFHT800_TrimMass50',
+            'PFHT1050',
+            'PFJet500',
+            'AK8PFJet500',
+            'AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np4',
+        ],
+    }
+
+    with open('triggers.json', 'w') as outfile:
+        json.dump(triggers, outfile)
+
+    return
+    
 # from AN
 def get_xs_an():
     xs = {}
@@ -173,8 +222,15 @@ def get_pmap():
                        'ST_tW_antitop_5f_inclusiveDecays_13TeV-powheg-pythia8',
                        'ST_tW_top_5f_inclusiveDecays_13TeV-powheg-pythia8',]
     
-    pmap['data'] = ['JetHT']
-    pmap['muondata'] = ['SingleMuon']
+    pmap['data'] = []
+    pmap['data'] += ['JetHT_2016B','JetHT_2016C','JetHT_2016D','JetHT_2016E','JetHT_2016F','JetHT_2016G']
+    pmap['data'] += ['JetHT_2017B','JetHT_2017C','JetHT_2017D','JetHT_2017E','JetHT_2017F']
+    pmap['data'] += ['JetHT_2018A','JetHT_2018B','JetHT_2018C','JetHT_2018D']
+
+    pmap['muondata'] = []
+    pmap['muondata'] += ['SingleMuon_2016B','SingleMuon_2016C','SingleMuon_2016D','SingleMuon_2016E','SingleMuon_2016F','SingleMuon_2016G']
+    pmap['muondata'] += ['SingleMuon_2017B','SingleMuon_2017C','SingleMuon_2017D','SingleMuon_2017E','SingleMuon_2017F']
+    pmap['muondata'] += ['SingleMuon_2018A','SingleMuon_2018B','SingleMuon_2018C','SingleMuon_2018D']
 
     # Other 2016 files
     #['DYJetsToQQ_HT180_13TeV-madgraphMLM-pythia8']                                                                 
@@ -195,6 +251,10 @@ def main():
 
     # create json output file with pmap
     get_pmap()
+
+    # create output files with trigger info
+    get_triggers()
+    get_muontriggers()
 
     return
 

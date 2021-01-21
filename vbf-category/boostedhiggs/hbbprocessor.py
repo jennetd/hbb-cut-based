@@ -37,50 +37,11 @@ class HbbProcessor(processor.ProcessorABC):
             '2018': 0.970,
         }
 
-        self._muontriggers = {
-            '2016': [
-                'Mu50',  # TODO: check
-            ],
-            '2017': [
-                'Mu50',
-                'TkMu50',
-            ],
-            '2018': [
-                'Mu50',  # TODO: check
-            ],
-        }
+        with open('muon_triggers.json') as f:
+            self._muontriggers = json.load(f)
 
-        self._triggers = {
-            '2016': [
-                'PFHT800',
-                'PFHT900',
-                'AK8PFJet360_TrimMass30',
-                'AK8PFHT700_TrimR0p1PT0p03Mass50',
-                'PFHT650_WideJetMJJ950DEtaJJ1p5',
-                'PFHT650_WideJetMJJ900DEtaJJ1p5',
-                'AK8DiPFJet280_200_TrimMass30_BTagCSV_p20',
-                'PFJet450',
-            ],
-            '2017': [
-                'AK8PFJet330_PFAK8BTagCSV_p17',
-                'PFHT1050',
-                'AK8PFJet400_TrimMass30',
-                'AK8PFJet420_TrimMass30',
-                'AK8PFHT800_TrimMass50',
-                'PFJet500',
-                'AK8PFJet500',
-            ],
-            '2018': [
-                'AK8PFJet400_TrimMass30',
-                'AK8PFJet420_TrimMass30',
-                'AK8PFHT800_TrimMass50',
-                'PFHT1050',
-                'PFJet500',
-                'AK8PFJet500',
-                'AK8PFJet330_PFAK8BTagCSV_p17',
-                'AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np4',
-            ],
-        }
+        with open('triggers.json') as f:
+            self._triggers = json.load(f)
 
         self._accumulator = processor.dict_accumulator({
             # dataset -> sumw
