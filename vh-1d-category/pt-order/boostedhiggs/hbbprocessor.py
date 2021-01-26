@@ -1,4 +1,5 @@
 import logging
+import json
 import numpy as np
 from coffea import processor, hist
 from .common import (
@@ -37,50 +38,11 @@ class HbbProcessor(processor.ProcessorABC):
             '2018': 0.970,
         }
 
-        self._muontriggers = {
-            '2016': [
-                'Mu50',  # TODO: check
-            ],
-            '2017': [
-                'Mu50',
-                'TkMu50',
-            ],
-            '2018': [
-                'Mu50',  # TODO: check
-            ],
-        }
+        with open('muon_triggers.json') as f:
+            self._muontriggers = json.load(f)
 
-        self._triggers = {
-            '2016': [
-                'PFHT800',
-                'PFHT900',
-                'AK8PFJet360_TrimMass30',
-                'AK8PFHT700_TrimR0p1PT0p03Mass50',
-                'PFHT650_WideJetMJJ950DEtaJJ1p5',
-                'PFHT650_WideJetMJJ900DEtaJJ1p5',
-                'AK8DiPFJet280_200_TrimMass30_BTagCSV_p20',
-                'PFJet450',
-            ],
-            '2017': [
-                'AK8PFJet330_PFAK8BTagCSV_p17',
-                'PFHT1050',
-                'AK8PFJet400_TrimMass30',
-                'AK8PFJet420_TrimMass30',
-                'AK8PFHT800_TrimMass50',
-                'PFJet500',
-                'AK8PFJet500',
-            ],
-            '2018': [
-                'AK8PFJet400_TrimMass30',
-                'AK8PFJet420_TrimMass30',
-                'AK8PFHT800_TrimMass50',
-                'PFHT1050',
-                'PFJet500',
-                'AK8PFJet500',
-                'AK8PFJet330_PFAK8BTagCSV_p17',
-                'AK8PFJet330_TrimMass30_PFAK8BoostedDoubleB_np4',
-            ],
-        }
+        with open('triggers.json') as f:
+            self._triggers = json.load(f)
 
         self._accumulator = processor.dict_accumulator({
             # dataset -> sumw
@@ -93,15 +55,15 @@ class HbbProcessor(processor.ProcessorABC):
                 hist.Bin('cut', 'Cut index', 11, 0, 11),
             ),
             'btagWeight': hist.Hist('Events', hist.Cat('dataset', 'Dataset'), hist.Bin('val', 'BTag correction', 50, 0, 3)),
-            'templates-pt': hist.Hist(
+            'templates-revpt': hist.Hist(
                 'Events',
                 hist.Cat('dataset', 'Dataset'),
                 hist.Cat('region', 'Region'),
 #                hist.Bin('pt1', r'Jet 1 $p_{T}$ [GeV]', [450, 500, 550, 600, 675, 800, 1200]),
-                hist.Bin('msd1', r'Jet 1 $m_{sd}$', 23, 40, 201),
+                hist.Bin('msd1', r'Jet 1 $m_{sd}$', 22, 47, 201),
                 hist.Bin('ddb1', r'Jet 1 ddb score', [0, 0.89, 1]),
                 hist.Bin('pt2', r'Jet 2 $p_{T}$ [GeV]', [300, 350, 400, 450, 500, 550, 600, 675, 800, 1200]),
-                hist.Bin('msd2', r'Jet 2 $m_{sd}$', 23, 40, 201),
+                hist.Bin('msd2', r'Jet 2 $m_{sd}$', 22, 47, 201),
 #                hist.Bin('ddb2', r'Jet 2 ddb score', [0, 0.89, 1]),
                 hist.Bin('n2ddt2',r'Jet 2 N2DDT', [-0.25, 0, 0.25]),
             ),
@@ -164,6 +126,9 @@ class HbbProcessor(processor.ProcessorABC):
         if self._jet_arbitration == 'pt':
             secondjet = candidatejet[:, 1:2]
             candidatejet = candidatejet[:, 0:1]
+        elif self._jet_arbitration == 'revpt':
+            secondjet = candidatejet[:, 0:1]
+            candidatejet = candidatejet[:, 1:2]
         elif self._jet_arbitration == 'mass':
             idx = (candidatejet.msdcorr).argsort()
             idx0 = idx[:,0:1]
@@ -191,9 +156,20 @@ class HbbProcessor(processor.ProcessorABC):
             & (candidatejet.pt < 1200)
             & (candidatejet.msdcorr < 201.)
         ).any())
-        selection.add('jetid', candidatejet.isTight.any())
         selection.add('n2ddt', (candidatejet.n2ddt < 0.).any())
         selection.add('ddbpass', (candidatejet.btagDDBvL >= 0.89).any())
+
+        selection.add('minjetkin2', (
+            (secondjet.pt >= 450)
+            & (secondjet.msdcorr >= 40.)
+            & (abs(secondjet.eta) < 2.5)
+        ).any())
+        selection.add('jetacceptance2', (
+            (secondjet.msdcorr >= 47.)
+            & (secondjet.pt < 1200)
+            & (secondjet.msdcorr < 201.)
+        ).any())
+        selection.add('n2ddt2', (secondjet.n2ddt < 0.).any())
 
         jets = events.Jet[
             (events.Jet.pt > 30.)
@@ -207,9 +183,9 @@ class HbbProcessor(processor.ProcessorABC):
         dphi = abs(ak4_ak8_pair.i0.delta_phi(ak4_ak8_pair.i1))
         deta = abs(ak4_ak8_pair.i0.eta - ak4_ak8_pair.i1.eta)
         ak4_opposite = jets[(dphi > np.pi / 2).all()]
-        selection.add('antiak4btagMediumOppHem', ak4_opposite.btagDeepB.max() < BTagEfficiency.btagWPs[self._year]['medium'])
+#        selection.add('antiak4btagMediumOppHem', ak4_opposite.btagDeepB.max() < BTagEfficiency.btagWPs[self._year]['medium'])
         ak4_away = jets[(dphi > 0.8).all()]
-        selection.add('ak4btagMedium08', ak4_away.btagDeepB.max() > BTagEfficiency.btagWPs[self._year]['medium'])
+#        selection.add('ak4btagMedium08', ak4_away.btagDeepB.max() > BTagEfficiency.btagWPs[self._year]['medium'])
 
         selection.add('met', events.MET.pt < 140.)
 
@@ -281,8 +257,8 @@ class HbbProcessor(processor.ProcessorABC):
         msd2_matched = secondjet.msdcorr * self._msdSF[self._year] * (genflavor2 > 0) + secondjet.msdcorr * (genflavor2 == 0)
 
         regions = {
-            'signal': ['trigger', 'minjetkin', 'jetacceptance', 'jetid', 'n2ddt', 'antiak4btagMediumOppHem', 'met', 'noleptons'],
-            'muoncontrol': ['muontrigger', 'minjetkin', 'jetacceptance', 'jetid', 'n2ddt', 'ak4btagMedium08', 'onemuon', 'muonkin', 'muonDphiAK8'],
+            'signal': ['trigger', 'minjetkin', 'jetacceptance', 'n2ddt', 'minjetkin2', 'jetacceptance2', 'n2ddt2', 'met', 'noleptons'],
+            'muoncontrol': ['muontrigger', 'minjetkin', 'jetacceptance', 'n2ddt', 'onemuon', 'muonkin', 'muonDphiAK8'],
             'noselection': [],
         }
 
@@ -320,7 +296,7 @@ class HbbProcessor(processor.ProcessorABC):
             else:
                 weight = weights.weight()[cut] * wmod[cut]
 
-            output['templates-pt'].fill(
+            output['templates-revpt'].fill(
                 dataset=dataset,
                 region=region,
 #                pt1=normalize(candidatejet.pt, cut),

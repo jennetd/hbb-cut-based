@@ -1,4 +1,5 @@
 import logging
+import json
 import numpy as np
 from coffea import processor, hist
 from .common import (
@@ -65,7 +66,7 @@ class HbbProcessor(processor.ProcessorABC):
                 hist.Cat('dataset', 'Dataset'),
                 hist.Cat('region', 'Region'),
                 hist.Bin('pt1', r'Jet $p_{T}$ [GeV]', [450, 500, 550, 600, 675, 800, 1200]),
-                hist.Bin('msd1', r'Jet 1 $m_{sd}$', 23, 40, 201),
+                hist.Bin('msd1', r'Jet 1 $m_{sd}$', 22, 47, 201),
                 hist.Bin('ddb1', r'Jet 1 ddb score', [0, 0.89, 1]),
                 hist.Bin('deta', r'$\Delta\eta_{jj}$', 1, 3.5, 7),
                 hist.Bin('mjj',r'$m_{jj}$ [GeV]', 1, 1000, 4000)
@@ -74,7 +75,7 @@ class HbbProcessor(processor.ProcessorABC):
                 'Events',
                 hist.Cat('dataset', 'Dataset'),
                 hist.Cat('region', 'Region'),
-                hist.Bin('msd1', r'Jet 1 $m_{sd}$', 23, 40, 201),
+                hist.Bin('msd1', r'Jet 1 $m_{sd}$', 22, 47, 201),
                 hist.Bin('ddb1', r'Jet 1 ddb score', [0, 0.89, 1]),
                 hist.Bin('deta', r'$\Delta\eta_{jj}$', 14, 0, 7),
                 hist.Bin('mjj', r'$m_{jj}$', 20, 0, 4000),
