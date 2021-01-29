@@ -55,16 +55,14 @@ class HbbProcessor(processor.ProcessorABC):
                 hist.Bin('cut', 'Cut index', 11, 0, 11),
             ),
             'btagWeight': hist.Hist('Events', hist.Cat('dataset', 'Dataset'), hist.Bin('val', 'BTag correction', 50, 0, 3)),
-            'templates-revpt': hist.Hist(
+            'templates-pt': hist.Hist(
                 'Events',
                 hist.Cat('dataset', 'Dataset'),
                 hist.Cat('region', 'Region'),
-#                hist.Bin('pt1', r'Jet 1 $p_{T}$ [GeV]', [450, 500, 550, 600, 675, 800, 1200]),
                 hist.Bin('msd1', r'Jet 1 $m_{sd}$', 22, 47, 201),
                 hist.Bin('ddb1', r'Jet 1 ddb score', [0, 0.89, 1]),
                 hist.Bin('pt2', r'Jet 2 $p_{T}$ [GeV]', [300, 350, 400, 450, 500, 550, 600, 675, 800, 1200]),
                 hist.Bin('msd2', r'Jet 2 $m_{sd}$', 22, 47, 201),
-#                hist.Bin('ddb2', r'Jet 2 ddb score', [0, 0.89, 1]),
                 hist.Bin('n2ddt2',r'Jet 2 N2DDT', [-0.25, 0, 0.25]),
             ),
         })
@@ -257,7 +255,7 @@ class HbbProcessor(processor.ProcessorABC):
         msd2_matched = secondjet.msdcorr * self._msdSF[self._year] * (genflavor2 > 0) + secondjet.msdcorr * (genflavor2 == 0)
 
         regions = {
-            'signal': ['trigger', 'minjetkin', 'jetacceptance', 'n2ddt', 'minjetkin2', 'jetacceptance2', 'n2ddt2', 'met', 'noleptons'],
+            'signal': ['trigger', 'minjetkin', 'jetacceptance', 'n2ddt', 'minjetkin2', 'jetacceptance2', 'met', 'noleptons'],
             'muoncontrol': ['muontrigger', 'minjetkin', 'jetacceptance', 'n2ddt', 'onemuon', 'muonkin', 'muonDphiAK8'],
             'noselection': [],
         }
