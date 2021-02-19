@@ -5,7 +5,8 @@
 import os, sys
 import json
 import uproot
-import awkward as ak
+import awkward1 as ak
+from coffea.nanoevents import NanoEventsFactory, NanoAODSchema
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -20,13 +21,13 @@ def main():
     index = sys.argv[2]
 
     from coffea import processor, util, hist
-    from boostedhiggs import HbbProcessor
+    from boostedhiggs import VBFProcessor
 
-    p = HbbProcessor(year=year)
-    args = {'nano': True, 'workers': 4, 'savemetrics': True}
+    p = VBFProcessor(year=year)
+    args = {'schema': NanoAODSchema, 'workers': 4}
  
     this_file = 'infiles/'+str(year)+'_'+str(index)+'.json'
-    out, metrics = processor.run_uproot_job(this_file, 'Events', p, processor.futures_executor, args, chunksize=50000)
+    out = processor.run_uproot_job(this_file, 'Events', p, processor.futures_executor, args, chunksize=10000)
 
     outfile = 'outfiles/'+str(year)+'_'+str(index)+'.coffea'
     util.save(out, outfile)
