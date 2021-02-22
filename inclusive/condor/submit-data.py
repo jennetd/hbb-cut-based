@@ -14,18 +14,16 @@ loc_base = os.environ['PWD']
 logdir = 'logs-data'
 
 tag = 'inclusive'
-homedir = '/store/user/jennetd/december-2020/'+tag
+homedir = '/store/user/jennetd/february-2021/'+tag
 indir = homedir + '/indata/'
 outdir = homedir + '/outdata/'
 
-os.chdir('..')
-os.system('xrdcp -rf indata/ root://cmseos.fnal.gov/'+homedir)
-os.system('xrdcp -f '+script+' root://cmseos.fnal.gov/'+homedir)
-os.system('xrdcp -f muon_triggers.json root://cmseos.fnal.gov/'+homedir)
-os.system('xrdcp -f triggers.json root://cmseos.fnal.gov/'+homedir)
-os.system('xrdcp -f boostedhiggs.tar.gz root://cmseos.fnal.gov/'+homedir)
+os.system('xrdcp -rf ../indata/ root://cmseos.fnal.gov/'+homedir)
+os.system('xrdcp -f ../'+script+' root://cmseos.fnal.gov/'+homedir)
+os.system('xrdcp -f ../muon_triggers.json root://cmseos.fnal.gov/'+homedir)
+os.system('xrdcp -f ../triggers.json root://cmseos.fnal.gov/'+homedir)
 os.system('xrdcp -f coffeaenv.tar.gz root://cmseos.fnal.gov/'+homedir)
-os.chdir(loc_base)
+os.system('xrdcp -f boostedhiggs.tar.gz root://cmseos.fnal.gov/'+homedir)
 
 ################################################
 ### Where is your list of root files to run over
@@ -42,9 +40,10 @@ os.system('mkdir -p /eos/uscms'+outdir)
 nsubmit = 0
 
 nfiles = {}
-nfiles['2016'] = 23
-nfiles['2017'] = 25
-nfiles['2018'] = 29
+
+nfiles['2016'] = 54
+nfiles['2017'] = 52
+nfiles['2018'] = 68
 
 for year in ['2016','2017','2018']:
     for f in range(1,nfiles[year]+1):
@@ -62,11 +61,6 @@ for year in ['2016','2017','2018']:
             line=line.replace('PREFIX',prefix)
             condor_file.write(line)
         condor_file.close()
-    
-        #copy local to eos
-        #os.system('xrdcp -f %s %s' % (localcondor,eoscondor))
-        #remove local copy
-        #os.system('rm %s' % localcondor)
     
         localsh=locdir+'/'+prefix+".sh"
         eosoutput="root://cmseos.fnal.gov/"+outdir+"/"+prefix+'.coffea'

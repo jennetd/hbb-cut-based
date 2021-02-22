@@ -11,14 +11,14 @@ import glob
 script = 'process.py'
 
 loc_base = os.environ['PWD']
-logdir = 'logs-data'
+logdir = 'logs-mc'
 
 tag = 'vh-category'
 homedir = '/store/user/jennetd/february-2021/'+tag
-indir = homedir + '/indata/'
-outdir = homedir + '/outdata/'
+indir = homedir + '/infiles/'
+outdir = homedir + '/outfiles/'
 
-os.system('xrdcp -rf ../indata/ root://cmseos.fnal.gov/'+homedir)
+#os.system('xrdcp -rf ../infiles/ root://cmseos.fnal.gov/'+homedir)
 os.system('xrdcp -f ../'+script+' root://cmseos.fnal.gov/'+homedir)
 os.system('xrdcp -f ../muon_triggers.json root://cmseos.fnal.gov/'+homedir)
 os.system('xrdcp -f ../triggers.json root://cmseos.fnal.gov/'+homedir)
@@ -41,9 +41,9 @@ nsubmit = 0
 
 nfiles = {}
 
-nfiles['2016'] = 54
-nfiles['2017'] = 52
-nfiles['2018'] = 68
+nfiles['2016'] = 64
+nfiles['2017'] = 89
+nfiles['2018'] = 106
 
 for year in ['2016','2017','2018']:
     for f in range(1,nfiles[year]+1):

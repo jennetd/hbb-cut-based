@@ -41,9 +41,9 @@ nsubmit = 0
 
 nfiles = {}
 
-nfiles['2016'] = 64
-nfiles['2017'] = 89
-nfiles['2018'] = 106
+nfiles['2016'] = 54
+nfiles['2017'] = 52
+nfiles['2018'] = 68
 
 for year in ['2017']:#['2016','2017','2018']:
     for f in range(1,2):#nfiles[year]+1):
