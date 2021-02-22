@@ -4,10 +4,10 @@
 xrdcp root://cmseos.fnal.gov/EOSDIR/coffeaenv.tar.gz .
 tar -zxvf coffeaenv.tar.gz
 source coffeaenv/bin/activate
+xrdcp root://cmseos.fnal.gov/EOSDIR/boostedhiggs.tar.gz .
+tar -zxvf boostedhiggs.tar.gz
 
 # copy code
-xrdcp root://cmseos.fnal.gov/EOSDIR/boostedhiggs.tar.gz .
-tar -zxvf boostedhiggs.tar.gz 
 xrdcp root://cmseos.fnal.gov/EOSDIR/SCRIPTNAME .
 xrdcp root://cmseos.fnal.gov/EOSDIR/triggers.json .
 xrdcp root://cmseos.fnal.gov/EOSDIR/muon_triggers.json .

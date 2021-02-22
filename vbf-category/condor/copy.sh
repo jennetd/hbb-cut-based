@@ -1,5 +1,5 @@
 rm -rf outfiles
-xrdcp -rf root://cmseos.fnal.gov//store/user/jennetd/december-2020/vbf-category/outfiles .
+xrdcp -rf root://cmseos.fnal.gov//store/user/jennetd/february-2021/vbf-category/outfiles .
 
 rm -rf outdata
-xrdcp -rf root://cmseos.fnal.gov//store/user/jennetd/december-2020/vbf-category/outdata .
+xrdcp -rf root://cmseos.fnal.gov//store/user/jennetd/february-2021/vbf-category/outdata .
