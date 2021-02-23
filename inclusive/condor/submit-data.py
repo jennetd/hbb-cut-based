@@ -8,18 +8,17 @@ import fileinput
 import json
 import glob
 
-script = 'process.py'
-
 loc_base = os.environ['PWD']
-logdir = 'logs-data'
+logdir = 'logs-mc'
 
 tag = 'inclusive'
-homedir = '/store/user/jennetd/february-2021/'+tag
-indir = homedir + '/indata/'
-outdir = homedir + '/outdata/'
+script = 'process.py'
 
-os.system('xrdcp -rf ../indata/ root://cmseos.fnal.gov/'+homedir)
-os.system('xrdcp -f ../'+script+' root://cmseos.fnal.gov/'+homedir)
+homedir = '/store/user/jennetd/february-2021/'
+indir = '/store/user/jennetd/february-2021/indata/'
+outdir = homedir + tag + '/outdata/'
+
+os.system('xrdcp -f ../'+script+' root://cmseos.fnal.gov/'+homedir+tag)
 os.system('xrdcp -f ../muon_triggers.json root://cmseos.fnal.gov/'+homedir)
 os.system('xrdcp -f ../triggers.json root://cmseos.fnal.gov/'+homedir)
 os.system('xrdcp -f coffeaenv.tar.gz root://cmseos.fnal.gov/'+homedir)
@@ -41,9 +40,9 @@ nsubmit = 0
 
 nfiles = {}
 
-nfiles['2016'] = 54
-nfiles['2017'] = 52
-nfiles['2018'] = 68
+nfiles['2016'] = 101
+nfiles['2017'] = 97
+nfiles['2018'] = 133
 
 for year in ['2016','2017','2018']:
     for f in range(1,nfiles[year]+1):
@@ -70,7 +69,8 @@ for year in ['2016','2017','2018']:
             line=line.replace('YEAR',year)
             line=line.replace('SAMPLE',str(f))
             line=line.replace('EOSDIR',homedir)
-            line=line.replace('EOSINDIR',indir)
+            line=line.replace('TAG',tag)
+            line=line.replace('EOSIN',indir)
             line=line.replace('EOSOUT',eosoutput)
             sh_file.write(line)
         sh_file.close()

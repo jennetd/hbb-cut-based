@@ -8,24 +8,21 @@ import fileinput
 import json
 import glob
 
-script = 'process.py'
-
 loc_base = os.environ['PWD']
 logdir = 'logs-mc'
 
 tag = 'inclusive'
-homedir = '/store/user/jennetd/december-2020/'+tag
-indir = homedir + '/infiles/'
-outdir = homedir + '/outfiles/'
+script = 'process.py'
 
-os.chdir('..')
-os.system('xrdcp -rf infiles/ root://cmseos.fnal.gov/'+homedir)
-os.system('xrdcp -f '+script+' root://cmseos.fnal.gov/'+homedir)
-os.system('xrdcp -f muon_triggers.json root://cmseos.fnal.gov/'+homedir)
-os.system('xrdcp -f triggers.json root://cmseos.fnal.gov/'+homedir)
-os.system('xrdcp -f boostedhiggs.tar.gz root://cmseos.fnal.gov/'+homedir)
+homedir = '/store/user/jennetd/february-2021/'
+indir = '/store/user/jennetd/february-2021/infiles/'
+outdir = homedir + tag + '/outfiles/'
+
+os.system('xrdcp -f ../'+script+' root://cmseos.fnal.gov/'+homedir+tag)
+os.system('xrdcp -f ../muon_triggers.json root://cmseos.fnal.gov/'+homedir)
+os.system('xrdcp -f ../triggers.json root://cmseos.fnal.gov/'+homedir)
 os.system('xrdcp -f coffeaenv.tar.gz root://cmseos.fnal.gov/'+homedir)
-os.chdir(loc_base)
+os.system('xrdcp -f boostedhiggs.tar.gz root://cmseos.fnal.gov/'+homedir)
 
 ################################################
 ### Where is your list of root files to run over
@@ -43,12 +40,12 @@ nsubmit = 0
 
 nfiles = {}
 
-nfiles['2016'] = 64
-nfiles['2017'] = 89
-nfiles['2018'] = 106
+nfiles['2016'] = 113
+nfiles['2017'] = 167
+nfiles['2018'] = 201
 
-for year in ['2018']:#['2016','2017','2018']:
-    for f in range(1,nfiles[year]+1):
+for year in ['2016','2017','2018']:
+    for f in range(193,nfiles[year]+1):
 
         prefix = year+'_'+str(f)
         print('Submitting '+prefix)
@@ -64,11 +61,6 @@ for year in ['2018']:#['2016','2017','2018']:
             condor_file.write(line)
         condor_file.close()
     
-        #copy local to eos
-        #os.system('xrdcp -f %s %s' % (localcondor,eoscondor))
-        #remove local copy
-        #os.system('rm %s' % localcondor)
-    
         localsh=locdir+'/'+prefix+".sh"
         eosoutput="root://cmseos.fnal.gov/"+outdir+"/"+prefix+'.coffea'
         sh_file = open(localsh,"w")
@@ -77,7 +69,8 @@ for year in ['2018']:#['2016','2017','2018']:
             line=line.replace('YEAR',year)
             line=line.replace('SAMPLE',str(f))
             line=line.replace('EOSDIR',homedir)
-            line=line.replace('EOSINDIR',indir)
+            line=line.replace('TAG',tag)
+            line=line.replace('EOSIN',indir)
             line=line.replace('EOSOUT',eosoutput)
             sh_file.write(line)
         sh_file.close()
