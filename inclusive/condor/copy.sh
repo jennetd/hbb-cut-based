@@ -1,5 +1,7 @@
-rm -rf outfiles
-xrdcp -rf root://cmseos.fnal.gov//store/user/jennetd/february-2021/inclusive/outfiles .
+export EOS_MGM_URL=root://cmseos.fnal.gov
 
-rm -rf outdata
-xrdcp -rf root://cmseos.fnal.gov//store/user/jennetd/february-2021/inclusive/outdata .
+rm -r outfiles
+eos cp -r /eos/uscms/store/user/jennetd/february-2021/inclusive/outfiles/ .
+
+rm -r outdata
+eos cp -r /eos/uscms/store/user/jennetd/february-2021/inclusive/outdata/ .
