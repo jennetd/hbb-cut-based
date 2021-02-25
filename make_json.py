@@ -152,6 +152,9 @@ def get_xs():
     xs['ST_t-channel_top_4f_inclusiveDecays_13TeV-powheg-madspin-pythia8'] = 113.3
     xs['ST_tW_antitop_5f_inclusiveDecays_13TeV-powheg-pythia8'] = 34.97
     xs['ST_tW_top_5f_inclusiveDecays_13TeV-powheg-pythia8'] = 34.91
+    xs['ST_s-channel_4f_leptonicDecays_13TeV-amcatnlo-pythia8'] = 0 #3.36
+    xs['ST_s-channel_4f_hadronicDecays_13TeV-amcatnlo-pythia8'] = 0
+    xs['ST_s-channel_4f_InclusiveDecays_13TeV-amcatnlo-pythia8'] = 0
 
     xs['GluGluHToBB_M125_13TeV_powheg_pythia8'] = 48.85*5.824E-01
     xs['GluGluHToBB_M125_13TeV_powheg_MINLO_NNLOPS_pythia8'] = 16.17
@@ -220,7 +223,10 @@ def get_pmap():
     pmap['singlet'] = ['ST_t-channel_top_4f_inclusiveDecays_13TeV-powheg-madspin-pythia8',
                        'ST_t-channel_antitop_4f_inclusiveDecays_13TeV-powheg-madspin-pythia8',
                        'ST_tW_antitop_5f_inclusiveDecays_13TeV-powheg-pythia8',
-                       'ST_tW_top_5f_inclusiveDecays_13TeV-powheg-pythia8',]
+                       'ST_tW_top_5f_inclusiveDecays_13TeV-powheg-pythia8',
+                       'ST_s-channel_4f_leptonicDecays_13TeV-amcatnlo-pythia8',
+                       'ST_s-channel_4f_hadronicDecays_13TeV-amcatnlo-pythia8',
+                       'ST_s-channel_4f_InclusiveDecays_13TeV-amcatnlo-pythia8',]
     
     pmap['data'] = []
     pmap['data'] += ['JetHT_2016B','JetHT_2016C','JetHT_2016D','JetHT_2016E','JetHT_2016F','JetHT_2016G']
