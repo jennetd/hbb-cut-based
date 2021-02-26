@@ -23,15 +23,13 @@ def main():
     from coffea import processor, util, hist
     from boostedhiggs import HbbProcessor
 
-    uproot.open.defaults["xrootd_handler"] = uproot.source.xrootd.MultithreadedXRootDSource
-
     p = HbbProcessor(year=year)
     args = {'schema': NanoAODSchema, 'workers': 4}
  
-    this_file = 'infiles/'+str(year)+'_'+str(index)+'.json'
+    this_file = 'indata/'+str(year)+'_'+str(index)+'.json'
     out = processor.run_uproot_job(this_file, 'Events', p, processor.futures_executor, args, chunksize=10000)
 
-    outfile = 'outfiles/'+str(year)+'_'+str(index)+'.coffea'
+    outfile = 'outdata/'+str(year)+'_'+str(index)+'.coffea'
     util.save(out, outfile)
 
     return
