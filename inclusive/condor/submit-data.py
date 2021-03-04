@@ -9,7 +9,7 @@ import json
 import glob
 
 loc_base = os.environ['PWD']
-logdir = 'logs-mc'
+logdir = 'logs-data'
 
 tag = 'inclusive'
 script = 'process.py'

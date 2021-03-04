@@ -44,7 +44,7 @@ nfiles['2016'] = 113
 nfiles['2017'] = 167
 nfiles['2018'] = 201
 
-for year in ['2016','2017','2018']:
+for year in ['2018']: #['2016','2017','2018']:
     for f in range(1,nfiles[year]+1):
 
         prefix = year+'_'+str(f)

@@ -1,6 +1,6 @@
 universe = vanilla
 Executable = DIRECTORY/PREFIX.sh
-Requirements   =  OpSys == "LINUX" && (Arch != "DUMMY")
+Requirements   =  OpSys == "LINUX" && (Arch != "DUMMY") && has_avx
 Should_Transfer_Files = YES
 WhenToTransferOutput = ON_EXIT
 Output = DIRECTORY/PREFIX.stdout

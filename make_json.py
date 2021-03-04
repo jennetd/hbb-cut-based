@@ -12,8 +12,8 @@ import matplotlib.pyplot as plt
 def get_muontriggers():
     muontriggers = {
         '2016': [ 'Mu50', 'TkMu50' ],
-        '2017': [ 'Mu50' ],
-        '2018': [ 'Mu50' ],
+        '2017': [ 'Mu50', 'OldMu100', 'TkMu100'],
+        '2018': [ 'Mu50', 'OldMu100', 'TkMu100' ],
     }
 
     with open('muon_triggers.json', 'w') as outfile:
@@ -37,14 +37,14 @@ def get_triggers():
             'AK8PFJet330_PFAK8BTagCSV_p17',
             'PFHT1050',
             'AK8PFJet400_TrimMass30',
-            'AK8PFJet420_TrimMass30',
+#            'AK8PFJet420_TrimMass30',
             'AK8PFHT800_TrimMass50',
             'PFJet500',
             'AK8PFJet500',
         ],
         '2018': [
             'AK8PFJet400_TrimMass30',
-            'AK8PFJet420_TrimMass30',
+#            'AK8PFJet420_TrimMass30',
             'AK8PFHT800_TrimMass50',
             'PFHT1050',
             'PFJet500',
