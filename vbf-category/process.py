@@ -17,12 +17,11 @@ from lpcjobqueue import LPCCondorCluster
 # Main method
 def main():
 
-    if len(sys.argv) != 3:
-        print("Enter year and index")
+    if len(sys.argv) != 2:
+        print("Enter year")
         return 
 
     year = sys.argv[1]
-    index = sys.argv[2]
 
     cluster = LPCCondorCluster(transfer_input_files="boostedhiggs")
     cluster.adapt(minimum=1, maximum=200)
