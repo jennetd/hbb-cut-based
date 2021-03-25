@@ -64,14 +64,14 @@ def get_xs():
     xs = {}
 
     # QCD 2016 tune
-    xs['QCD_HT50to100_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 2.486e+08
-    xs['QCD_HT100to200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 27990000.0
-    xs['QCD_HT200to300_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 1712000
-    xs['QCD_HT300to500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 347700
-    xs['QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 32100
-    xs['QCD_HT700to1000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 6831
+#    xs['QCD_HT50to100_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 2.486e+08
+#    xs['QCD_HT100to200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 27990000.0
+#    xs['QCD_HT200to300_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 1712000
+#    xs['QCD_HT300to500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 347300
+    xs['QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 32200
+    xs['QCD_HT700to1000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 6839
     xs['QCD_HT1000to1500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 1207
-    xs['QCD_HT1500to2000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 119.9
+    xs['QCD_HT1500to2000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 120.1
     xs['QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 25.24
 
     # QCD 2017/2018 tune
@@ -82,59 +82,63 @@ def get_xs():
     xs['QCD_HT1500to2000_TuneCP5_13TeV-madgraphMLM-pythia8'] = 99.11 
     xs['QCD_HT2000toInf_TuneCP5_13TeV-madgraphMLM-pythia8'] = 20.23 
 
-    # WJetsToQQ
-    xs['WJetsToQQ_HT400to600_qc19_3j_TuneCP5_13TeV'] = 315.6
-    xs['WJetsToQQ_HT600to800_qc19_3j_TuneCP5_13TeV'] = 68.57                                                                          
-    xs['WJetsToQQ_HT-800toInf_qc19_3j_TuneCP5_13TeV'] = 34.9
+    # WJetsToQQ 2016 tune
+    xs['WJetsToQQ_HT400to600_qc19_3j_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 269.90
+    xs['WJetsToQQ_HT600to800_qc19_3j_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 59.52
+    xs['WJetsToQQ_HT-800toInf_qc19_3j_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 30.17
 
-    # ZJetsToQQ
-    xs['ZJetsToQQ_HT400to600_qc19_4j_TuneCP5_13TeV'] = 145.4
-    xs['ZJetsToQQ_HT600to800_qc19_4j_TuneCP5_13TeV'] = 34.0                                                                         
-    xs['ZJetsToQQ_HT-800toInf_qc19_4j_TuneCP5_13TeV'] = 18.67
+    # WJetsToQQ 2017/2018 tune 
+    xs['WJetsToQQ_HT400to600_qc19_3j_TuneCP5_13TeV-madgraphMLM-pythia8'] = 314.90
+    xs['WJetsToQQ_HT600to800_qc19_3j_TuneCP5_13TeV-madgraphMLM-pythia8'] = 68.64
+    xs['WJetsToQQ_HT-800toInf_qc19_3j_TuneCP5_13TeV-madgraphMLM-pythia8'] = 34.70
+
+    # ZJetsToQQ 2016 tune
+    xs['ZJetsToQQ_HT400to600_qc19_4j_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 116.70
+    xs['ZJetsToQQ_HT600to800_qc19_4j_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 27.37
+    xs['ZJetsToQQ_HT-800toInf_qc19_4j_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 15.01
+
+    # ZJetsToQQ 2017/2018 tune
+    xs['ZJetsToQQ_HT400to600_qc19_4j_TuneCP5_13TeV-madgraphMLM-pythia8'] = 144.70
+    xs['ZJetsToQQ_HT600to800_qc19_4j_TuneCP5_13TeV-madgraphMLM-pythia8'] = 34.06                    
+    xs['ZJetsToQQ_HT-800toInf_qc19_4j_TuneCP5_13TeV-madgraphMLM-pythia8'] = 18.57
 
     # WJetsToLNu 2016 tune
-    xs['WJetsToLNu_HT-100To200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 0
-    xs['WJetsToLNu_HT-200To400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 0
-    xs['WJetsToLNu_HT-400To600_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 0
-    xs['WJetsToLNu_HT-600To800_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 0
-    xs['WJetsToLNu_HT-800To1200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 0
-    xs['WJetsToLNu_HT-1200To2500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 0
-    xs['WJetsToLNu_HT-2500ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 0
+    xs['WJetsToLNu_HT-200To400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 359.7*1.434
+    xs['WJetsToLNu_HT-400To600_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 48.91*1.532
+    xs['WJetsToLNu_HT-600To800_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 12.05*1.004
+    xs['WJetsToLNu_HT-800To1200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 5.501*1.004
+    xs['WJetsToLNu_HT-1200To2500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 1.329*1.004
+    xs['WJetsToLNu_HT-2500ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 0.03216*1.004
 
     # WJetsToLNu 2017/2018 tune
-    xs['WJetsToLNu_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8'] = 0
-    xs['WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8'] = 0
-    xs['WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8'] = 0
-    xs['WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8'] = 0
-    xs['WJetsToLNu_HT-800To1200_TuneCP5_13TeV-madgraphMLM-pythia8'] = 0
-    xs['WJetsToLNu_HT-1200To2500_TuneCP5_13TeV-madgraphMLM-pythia8'] = 0
-    xs['WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8'] = 0
+    xs['WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8'] = 407.9*1.167
+    xs['WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8'] = 57.48*1.167
+    xs['WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8'] = 12.87*1.167
+    xs['WJetsToLNu_HT-800To1200_TuneCP5_13TeV-madgraphMLM-pythia8'] = 5.366*1.167
+    xs['WJetsToLNu_HT-1200To2500_TuneCP5_13TeV-madgraphMLM-pythia8'] = 1.074*1.167
+    xs['WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8'] = 0.008001*1.167
 
     # ZJetsToLL 2016 tune
-    xs['DYJetsToLL_M-50_HT-100to200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 0
-    xs['DYJetsToLL_M-50_HT-200to400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 0
-    xs['DYJetsToLL_M-50_HT-400to600_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 0
-    xs['DYJetsToLL_M-50_HT-600toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 0
-    xs['DYJetsToLL_M-50_HT-600to800_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 0
-    xs['DYJetsToLL_M-50_HT-800to1200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 0
-    xs['DYJetsToLL_M-50_HT-1200to2500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 0
-    xs['DYJetsToLL_M-50_HT-2500toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 0
+#    xs['DYJetsToLL_M-50_HT-200to400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 40.99*1.438
+    xs['DYJetsToLL_M-50_HT-400to600_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 5.678*1.494
+    xs['DYJetsToLL_M-50_HT-600to800_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 1.367*1.139
+    xs['DYJetsToLL_M-50_HT-800to1200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 0.6304*1.139
+    xs['DYJetsToLL_M-50_HT-1200to2500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 0.1514*1.139
+    xs['DYJetsToLL_M-50_HT-2500toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 0.003565*1.139
 
     # ZJetsToLL 2017/2018 tune
-    xs['DYJetsToLL_M_50_HT_100to200_TuneCP5_13TeV-madgraphMLM-pythia8'] = 0
-    xs['DYJetsToLL_M_50_HT_200to400_TuneCP5_13TeV-madgraphMLM-pythia8'] = 0
-    xs['DYJetsToLL_M_50_HT_400to600_TuneCP5_13TeV-madgraphMLM-pythia8'] = 0
-    xs['DYJetsToLL_M_50_HT_600to800_TuneCP5_13TeV-madgraphMLM-pythia8'] = 0
-    xs['DYJetsToLL_M_50_HT_800to1200_TuneCP5_13TeV-madgraphMLM-pythia8'] = 0
-    xs['DYJetsToLL_M_50_HT_1200to2500_TuneCP5_13TeV-madgraphMLM-pythia8'] = 0
-    xs['DYJetsToLL_M_50_HT_2500toInf_TuneCP5_13TeV-madgraphMLM-pythia8'] = 0
-    xs['DYJetsToLL_M_50_HT_100to200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8'] = 0
-    xs['DYJetsToLL_M_50_HT_200to400_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8'] = 0
-    xs['DYJetsToLL_M_50_HT_400to600_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8'] = 0
-    xs['DYJetsToLL_M_50_HT_600to800_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8'] = 0
-    xs['DYJetsToLL_M_50_HT_800to1200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8'] = 0
-    xs['DYJetsToLL_M_50_HT_1200to2500_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8'] = 0
-    xs['DYJetsToLL_M_50_HT_2500toInf_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8'] = 0
+#    xs['DYJetsToLL_M-50_HT-200to400_TuneCP5_13TeV-madgraphMLM-pythia8'] = 48.66*1.137
+    xs['DYJetsToLL_M-50_HT-400to600_TuneCP5_13TeV-madgraphMLM-pythia8'] = 6.968*1.137
+    xs['DYJetsToLL_M-50_HT-600to800_TuneCP5_13TeV-madgraphMLM-pythia8'] = 1.743*1.137 
+    xs['DYJetsToLL_M-50_HT-800to1200_TuneCP5_13TeV-madgraphMLM-pythia8'] = 0.8052*1.137
+    xs['DYJetsToLL_M-50_HT-1200to2500_TuneCP5_13TeV-madgraphMLM-pythia8'] = 0.1933*1.137
+    xs['DYJetsToLL_M-50_HT-2500toInf_TuneCP5_13TeV-madgraphMLM-pythia8'] = 0.003468*1.137
+#    xs['DYJetsToLL_M-50_HT-200to400_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8'] = 48.66*1.137
+    xs['DYJetsToLL_M-50_HT-400to600_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8'] = 6.968*1.137
+    xs['DYJetsToLL_M-50_HT-600to800_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8'] = 1.743*1.137
+    xs['DYJetsToLL_M-50_HT-800to1200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8'] = 0.8052*1.137
+    xs['DYJetsToLL_M-50_HT-1200to2500_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8'] = 0.1933*1.137
+    xs['DYJetsToLL_M-50_HT-2500toInf_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8'] = 0.003468*1.137
     
     # ttbar 
     xs['TTToHadronic_TuneCP5_13TeV_powheg_pythia8'] = 377.96
@@ -144,34 +148,25 @@ def get_xs():
     xs['TTToSemiLeptonic_TuneCP5_PSweights_13TeV_powheg_pythia8'] = 365.34
     xs['TTTo2L2Nu_TuneCP5_PSweights_13TeV_powheg_pythia8'] = 88.29
     
-    # single top 2016 tune
-    xs['ST_s-channel_4f_leptonDecays_13TeV-amcatnlo-pythia8_TuneCUETP8M1'] = 3.36
-    
-    xs['ST_t-channel_antitop_4f_inclusiveDecays_13TeV-powhegV2-madspin-pythia8_TuneCUETP8M1'] = 81.42
-    xs['ST_t-channel_top_4f_inclusiveDecays_13TeV-powhegV2-madspin-pythia8_TuneCUETP8M1'] = 136.82
-    
-    xs['ST_tW_antitop_5f_inclusiveDecays_13TeV-powheg-pythia8_TuneCUETP8M1'] = 35.6
-    xs['ST_tW_top_5f_inclusiveDecays_13TeV-powheg-pythia8_TuneCUETP8M1'] = 35.6
-    
-    # single top 2017/2018 tune
+    # single top
     xs['ST_s-channel_4f_hadronicDecays_TuneCP5_13TeV-madgraph-pythia8'] = 11.24
-    xs['ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-amcatnlo-pythia8'] = 3.74
+    xs['ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-amcatnlo-pythia8'] = 3.36
     xs['ST_s-channel_4f_hadronicDecays_TuneCP5_PSweights_13TeV-madgraph-pythia8'] = 11.24
-    xs['ST_s-channel_4f_leptonDecays_TuneCP5_PSweights_13TeV-amcatnlo-pythia8'] = 3.74
+    xs['ST_s-channel_4f_leptonDecays_TuneCP5_PSweights_13TeV-amcatnlo-pythia8'] = 3.36
     
-    xs['ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8'] = 67.91
-    xs['ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8'] = 113.3
-    xs['ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_PSweights_13TeV-powhegV2-madspin-pythia8'] = 67.91
-    xs['ST_t-channel_top_4f_inclusiveDecays_TuneCP5_PSweights_13TeV-powhegV2-madspin-pythia8'] = 113.3
+    xs['ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8'] = 80.95
+    xs['ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8'] = 136.02
+    xs['ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_PSweights_13TeV-powhegV2-madspin-pythia8'] = 80.95
+    xs['ST_t-channel_top_4f_inclusiveDecays_TuneCP5_PSweights_13TeV-powhegV2-madspin-pythia8'] = 136.02
     
-    xs['ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8'] = 34.97
-    xs['ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8'] = 34.91
-    xs['ST_tW_antitop_5f_inclusiveDecays_TuneCP5_PSweights_13TeV-powheg-pythia8'] = 34.97
-    xs['ST_tW_top_5f_inclusiveDecays_TuneCP5_PSweights_13TeV-powheg-pythia8'] = 34.91
+    xs['ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8'] = 35.85
+    xs['ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8'] = 35.85
+    xs['ST_tW_antitop_5f_inclusiveDecays_TuneCP5_PSweights_13TeV-powheg-pythia8'] = 35.85
+    xs['ST_tW_top_5f_inclusiveDecays_TuneCP5_PSweights_13TeV-powheg-pythia8'] = 35.85
     
     # VV
-    xs['WW_TuneCP5_13TeV-pythia8'] = 75.82
-    xs['WZ_TuneCP5_13TeV-pythia8'] = 27.6
+    xs['WW_TuneCP5_13TeV-pythia8'] = 75.90
+    xs['WZ_TuneCP5_13TeV-pythia8'] = 27.57
     xs['ZZ_TuneCP5_13TeV-pythia8'] = 12.14 
     
     # Higgs
