@@ -36,7 +36,6 @@ def main():
     
     # get list of input files
     infiles = subprocess.getoutput("ls infiles-split/"+year+"*.json").split()
-    infiles = infiles[0:3]
     
     for this_file in infiles:
         index = this_file.split("_")[1].split(".json")[0]
