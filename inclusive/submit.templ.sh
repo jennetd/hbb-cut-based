@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # make dir for input/output
-mkdir infiles
-xrdcp root://cmseos.fnal.gov/EOSIN/YEAR_SAMPLE.json infiles
+mkdir infiles-split
+xrdcp root://cmseos.fnal.gov/EOSIN/YEAR_SAMPLE.json infiles-split
 mkdir outfiles
 
 # run code
