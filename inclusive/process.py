@@ -17,31 +17,32 @@ from lpcjobqueue import LPCCondorCluster
 # Main method
 def main():
 
-    if len(sys.argv) != 3:
-        print("Enter year and index")
+    if len(sys.argv) != 2:
+        print("Enter year")
         return 
 
     year = sys.argv[1]
-    index = sys.argv[2]
 
     cluster = LPCCondorCluster(transfer_input_files="boostedhiggs")
     cluster.adapt(minimum=1, maximum=200)
     client = Client(cluster)
 
     from coffea import processor, util, hist
-    from boostedhiggs import HbbProcessor
+    from boostedhiggs import VBFProcessor
 
     infiles=subprocess.getoutput("ls infiles/"+year+"*.json").split()
+
+    uproot.open.defaults["xrootd_handler"] = uproot.source.xrootd.MultithreadedXRootDSource
 
     for index, this_file in enumerate(infiles):
         print(this_file)
 
-        p = HbbProcessor(year=year)
-        args = {'client': client, 'savemetrics':True, 'schema':NanoAODSchema, 'align_clusters':True, 'retries': 1}
+        p = VBFProcessor(year=year)
+        args = {'client': client, 'savemetrics':True, 'schema':NanoAODSchema, 'retries': 1}
         
         print("Waiting for at least one worker...")
         client.wait_for_workers(1)
-        out, metrics = processor.run_uproot_job(str(this_file), 'Events', p, processor.dask_executor, args, chunksize=10000)
+        out, metrics = processor.run_uproot_job(str(this_file), 'Events', p, processor.dask_executor, args, chunksize=2000)
 
         print(f"Output: {out}")
         print(f"Metrics: {metrics}")
