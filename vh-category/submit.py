@@ -14,7 +14,7 @@ def main():
     loc_base = os.environ['PWD']
     logdir = 'logs'
 
-    tag = 'inclusive'
+    tag = 'vh-category'
     script = 'process-one.py'
 
     homedir = '/store/user/jennetd/march-2021/'

@@ -31,14 +31,16 @@ def main():
     from coffea import processor, util, hist
     from boostedhiggs import VBFProcessor
 
-    infiles=subprocess.getoutput("ls infiles/"+year+"_"+str(index)+".json").split()
+    infiles=subprocess.getoutput("ls infiles-split/"+year+"_"+str(index)+".json").split()
+
+    uproot.open.defaults["xrootd_handler"] = uproot.source.xrootd.MultithreadedXRootDSource
 
     for this_file in infiles:
         print(this_file)
 
         p = VBFProcessor(year=year)
 #        args = {'client': client, 'savemetrics':True, 'schema':NanoAODSchema, 'align_clusters':True, 'retries': 1}
-        args = {'savemetrics':True, 'schema':NanoAODSchema, 'align_clusters':True, 'retries': 1}
+        args = {'savemetrics':True, 'schema':NanoAODSchema, 'retries': 1}
         
 #        print("Waiting for at least one worker...")
 #        client.wait_for_workers(1)
