@@ -76,11 +76,18 @@ def get_xs():
 
     # QCD 2017/2018 tune
     xs['QCD_HT300to500_TuneCP5_13TeV-madgraph-pythia8'] = 322600 
-    xs['QCD_HT500to700_TuneCP5_13TeV-madgraphMLM-pythia8'] = 29980 
-    xs['QCD_HT700to1000_TuneCP5_13TeV-madgraphMLM-pythia8'] = 6334 
-    xs['QCD_HT1000to1500_TuneCP5_13TeV-madgraphMLM-pythia8'] = 1088 
-    xs['QCD_HT1500to2000_TuneCP5_13TeV-madgraphMLM-pythia8'] = 99.11 
-    xs['QCD_HT2000toInf_TuneCP5_13TeV-madgraphMLM-pythia8'] = 20.23 
+    xs['QCD_HT500to700_TuneCP5_13TeV-madgraph-pythia8'] = 29980 
+    xs['QCD_HT700to1000_TuneCP5_13TeV-madgraph-pythia8'] = 6334 
+    xs['QCD_HT1000to1500_TuneCP5_13TeV-madgraph-pythia8'] = 1088 
+    xs['QCD_HT1500to2000_TuneCP5_13TeV-madgraph-pythia8'] = 99.11 
+    xs['QCD_HT2000toInf_TuneCP5_13TeV-madgraph-pythia8'] = 20.23 
+
+    xs['QCD_HT300to500_TuneCP5_13TeV-madgraphMLM-pythia8'] = 322600
+    xs['QCD_HT500to700_TuneCP5_13TeV-madgraphMLM-pythia8'] = 29980
+    xs['QCD_HT700to1000_TuneCP5_13TeV-madgraphMLM-pythia8'] = 6334
+    xs['QCD_HT1000to1500_TuneCP5_13TeV-madgraphMLM-pythia8'] = 1088
+    xs['QCD_HT1500to2000_TuneCP5_13TeV-madgraphMLM-pythia8'] = 99.11
+    xs['QCD_HT2000toInf_TuneCP5_13TeV-madgraphMLM-pythia8'] = 20.23
 
     # WJetsToQQ 2016 tune
     xs['WJetsToQQ_HT400to600_qc19_3j_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = 269.90
@@ -141,52 +148,67 @@ def get_xs():
     xs['DYJetsToLL_M-50_HT-2500toInf_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8'] = 0.003468*1.137
     
     # ttbar 
-    xs['TTToHadronic_TuneCP5_13TeV_powheg_pythia8'] = 377.96
-    xs['TTToSemiLeptonic_TuneCP5_13TeV_powheg_pythia8'] = 365.34
-    xs['TTTo2L2Nu_TuneCP5_13TeV_powheg_pythia8'] = 88.29
-    xs['TTToHadronic_TuneCP5_PSweights_13TeV_powheg_pythia8'] = 377.96
-    xs['TTToSemiLeptonic_TuneCP5_PSweights_13TeV_powheg_pythia8'] = 365.34
-    xs['TTTo2L2Nu_TuneCP5_PSweights_13TeV_powheg_pythia8'] = 88.29
+    xs['TTToHadronic_TuneCP5_13TeV-powheg-pythia8'] = 377.96
+    xs['TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8'] = 365.34
+    xs['TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8'] = 88.29
+    xs['TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8'] = 377.96
+    xs['TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8'] = 365.34
+    xs['TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8'] = 88.29
     
     # single top
-    xs['ST_s-channel_4f_hadronicDecays_TuneCP5_13TeV-madgraph-pythia8'] = 11.24
+    xs['ST_s-channel_4f_hadronicDecays_TuneCP5_13TeV-amcatnlo-pythia8'] = 11.24
     xs['ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-amcatnlo-pythia8'] = 3.36
-    xs['ST_s-channel_4f_hadronicDecays_TuneCP5_PSweights_13TeV-madgraph-pythia8'] = 11.24
+    xs['ST_s-channel_4f_hadronicDecays_TuneCP5_PSweights_13TeV-amcatnlo-pythia8'] = 11.24
     xs['ST_s-channel_4f_leptonDecays_TuneCP5_PSweights_13TeV-amcatnlo-pythia8'] = 3.36
-    
+    xs['ST_s-channel_antitop_leptonDecays_13TeV-PSweights_powheg-pythia'] = 1.2934
+    xs['ST_s-channel_top_leptonDecays_13TeV-PSweights_powheg-pythia'] = 2.0688
+
     xs['ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8'] = 80.95
     xs['ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8'] = 136.02
-    xs['ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_PSweights_13TeV-powhegV2-madspin-pythia8'] = 80.95
-    xs['ST_t-channel_top_4f_inclusiveDecays_TuneCP5_PSweights_13TeV-powhegV2-madspin-pythia8'] = 136.02
-    
+    xs['ST_t-channel_antitop_4f_InclusiveDecays_TuneCP5_PSweights_13TeV-powheg-pythia8'] = 80.95
+    xs['ST_t-channel_top_4f_InclusiveDecays_TuneCP5_PSweights_13TeV-powheg-pythia8'] = 136.02
+    xs['ST_t-channel_antitop_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8'] = 80.95
+    xs['ST_t-channel_top_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8'] = 136.02    
+
     xs['ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8'] = 35.85
     xs['ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8'] = 35.85
     xs['ST_tW_antitop_5f_inclusiveDecays_TuneCP5_PSweights_13TeV-powheg-pythia8'] = 35.85
     xs['ST_tW_top_5f_inclusiveDecays_TuneCP5_PSweights_13TeV-powheg-pythia8'] = 35.85
     
-    # VV
+    # VV 2016 tune
+    xs['WW_TuneCUETP8M1_13TeV-pythia8'] = 64.30
+    xs['WZ_TuneCUETP8M1_13TeV-pythia8'] = 23.43
+    xs['ZZ_TuneCUETP8M1_13TeV-pythia8'] = 10.16
+
+    # VV 2017/2018 tune
     xs['WW_TuneCP5_13TeV-pythia8'] = 75.90
     xs['WZ_TuneCP5_13TeV-pythia8'] = 27.57
     xs['ZZ_TuneCP5_13TeV-pythia8'] = 12.14 
-    
+
+    xs['WW_TuneCP5_PSweights_13TeV-pythia8'] = 75.90
+    xs['WZ_TuneCP5_PSweights_13TeV-pythia8'] = 27.57
+    xs['ZZ_TuneCP5_PSweights_13TeV-pythia8'] = 12.14
+
     # Higgs
     xs['ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8'] = 8.839E-01*(1.-3.*0.0335962-0.201030)*5.824E-01
     xs['ZH_HToBB_ZToLL_M125_13TeV_powheg_pythia8'] = 8.839E-01*3.*0.0335962*5.824E-01
     xs['ZH_HToBB_ZToNuNu_M125_13TeV_powheg_pythia8'] = 8.839E-01*5.824E-01*0.201030 
     
-    xs['GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8'] = 2.780e+01
-    
-    xs['VBFHToBB_M_125_13TeV_powheg_pythia8_weightfix'] = 3.782*5.824E-01
+    xs['GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8'] = 2.780e+01*5.824E-01
+    xs['GluGluHToBB_M125_TuneCP5_13TeV-powheg-pythia8'] = 48.85*5.824E-01
+    xs['GluGluHToBB_M125_13TeV_powheg_pythia8'] = 48.85*5.824E-01
+
+    xs['VBFHToBB_M-125_13TeV_powheg_pythia8_weightfix'] = 3.782*5.824E-01
     
     xs['WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8'] = 5.328E-01*(1.-3.*0.108535)*5.824E-01
     xs['WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8'] = 8.400E-01*(1.-3.*0.108535)*5.824E-01
     xs['WminusH_HToBB_WToLNu_M125_13TeV_powheg_pythia8'] = 5.328E-01*(3.*0.108535)*5.824E-01
     xs['WplusH_HToBB_WToLNu_M125_13TeV_powheg_pythia8'] = 8.400E-01*(3.*0.108535)*5.824E-01
     
-    xs['ttHTobb_M125_TuneCP5_13TeV_powheg_pythia8'] = 5.071E-01*5.824E-01
+    xs['ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8'] = 5.071E-01*5.824E-01
     
     xs['ggZH_HToBB_ZToNuNu_M125_13TeV_powheg_pythia8'] = 1.227E-01*5.824E-01*0.201030
-    xs['ggZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8'] = 1.227E-01*5.82E-01*0.6991
+    xs['ggZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8'] = 1.227E-01*5.82E-01*(1.-3.*0.0335962-0.201030)
     xs['ggZH_HToBB_ZToLL_M125_13TeV_powheg_pythia8'] = 1.227E-01*5.824E-01*0.0335962*3.
     
     with open('xsec.json', 'w') as outfile:
@@ -209,12 +231,21 @@ def get_pmap():
                   'WplusH_HToBB_WToLNu_M125_13TeV_powheg_pythia8',
                   'WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8',]
 
-    pmap['ttH'] = ['ttHToBB_M125_13TeV-powheg-pythia8']
-    pmap['VBF'] = ['VBFHToBB_M125_13TeV_powheg_pythia8']
+    pmap['ttH'] = ['ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8']
+    pmap['VBF'] = ['VBFHToBB_M-125_13TeV_powheg_pythia8_weightfix']
 
-    pmap['ggF'] = ['GluGluHToBB_M125_13TeV_powheg_MINLO_NNLOPS_pythia8']
+    pmap['ggF'] = ['GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8']
+    pmap['ggF-powheg'] = ['GluGluHToBB_M125_TuneCP5_13TeV-powheg-pythia8',
+                          'GluGluHToBB_M125_13TeV_powheg_pythia8']
 
-    pmap['QCD'] = ['QCD_HT500to700_TuneCP5_13TeV-madgraphMLM-pythia8',
+    pmap['QCD'] = ['QCD_HT300to500_TuneCP5_13TeV-madgraph-pythia8',
+                   'QCD_HT500to700_TuneCP5_13TeV-madgraph-pythia8',
+                   'QCD_HT700to1000_TuneCP5_13TeV-madgraph-pythia8',
+                   'QCD_HT1000to1500_TuneCP5_13TeV-madgraph-pythia8',
+                   'QCD_HT1500to2000_TuneCP5_13TeV-madgraph-pythia8',
+                   'QCD_HT2000toInf_TuneCP5_13TeV-madgraph-pythia8',
+                   'QCD_HT300to500_TuneCP5_13TeV-madgraphMLM-pythia8',
+                   'QCD_HT500to700_TuneCP5_13TeV-madgraphMLM-pythia8',
                    'QCD_HT700to1000_TuneCP5_13TeV-madgraphMLM-pythia8',
                    'QCD_HT1000to1500_TuneCP5_13TeV-madgraphMLM-pythia8',
                    'QCD_HT1500to2000_TuneCP5_13TeV-madgraphMLM-pythia8',
@@ -227,8 +258,14 @@ def get_pmap():
     
     pmap['VV'] = ['WW_TuneCP5_13TeV-pythia8',
                   'ZZ_TuneCP5_13TeV-pythia8',
-                  'WZ_TuneCP5_13TeV-pythia8',]
-    
+                  'WZ_TuneCP5_13TeV-pythia8',
+                  'WW_TuneCP5_PSweights_13TeV-pythia8',
+                  'ZZ_TuneCP5_PSweights_13TeV-pythia8',
+                  'WZ_TuneCP5_PSweights_13TeV-pythia8',
+                  'WW_TuneCUETP8M1_13TeV-pythia8',
+                  'WZ_TuneCUETP8M1_13TeV-pythia8',
+                  'ZZ_TuneCUETP8M1_13TeV-pythia8',]
+
     pmap['Wjets'] = ['WJetsToQQ_HT-800toInf_qc19_3j_TuneCP5_13TeV-madgraphMLM-pythia8',
                      'WJetsToQQ_HT400to600_qc19_3j_TuneCP5_13TeV-madgraphMLM-pythia8',
                      'WJetsToQQ_HT600to800_qc19_3j_TuneCP5_13TeV-madgraphMLM-pythia8',
@@ -287,8 +324,11 @@ def get_pmap():
                        'ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8',
                        'ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8',
                        'ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8',
-                       'ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8',]
-
+                       'ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8',
+                       'ST_s-channel_antitop_leptonDecays_13TeV-PSweights_powheg-pythia',
+                       'ST_s-channel_top_leptonDecays_13TeV-PSweights_powheg-pythia',
+                       'ST_t-channel_antitop_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8',
+                       'ST_t-channel_top_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8',]
     
     pmap['data'] = ['JetHT']
 
