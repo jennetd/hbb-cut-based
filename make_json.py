@@ -216,7 +216,7 @@ def get_xs():
 
     return
 
-def get_pmap():
+def get_pmap(mconly=False):
     pmap = {}
 
     pmap['ZH'] = ['ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8',
@@ -330,12 +330,14 @@ def get_pmap():
                        'ST_t-channel_antitop_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8',
                        'ST_t-channel_top_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8',]
     
-    pmap['data'] = ['JetHT']
-
-    pmap['muondata'] = ['SingleMuon']
-
-    with open('pmap.json', 'w') as outfile:
-        json.dump(pmap, outfile)
+    if mconly:
+        with open('pmap_mc.json', 'w') as outfile:
+            json.dump(pmap, outfile)
+    else:
+        pmap['data'] = ['JetHT']
+        pmap['muondata'] = ['SingleMuon']
+        with open('pmap.json', 'w') as outfile:
+            json.dump(pmap, outfile)
 
 
 # Main method
@@ -346,6 +348,7 @@ def main():
 
     # create json output file with pmap
     get_pmap()
+    get_pmap(True)
 
     # create output files with trigger info
     get_triggers()
