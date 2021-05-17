@@ -31,7 +31,7 @@ def plot_datamc_muoncr(h, name, title, log=True, blind=False):
     # Plot stacked hist                                                                                                   
     hist.plot1d(h,order=mc,stack=True,fill_opts={'color':colors,'edgecolor':'black'})                              
     # Overlay data                                                                                                            
-    hist.plot1d(h.integrate('process','muondata'),error_opts={'marker':'o','c':'k','markersize':5}) 
+    hist.plot1d(h.integrate('process','muondata'),error_opts={'marker':'o','color':'k','markersize':5}) 
     labels = ['Process'] + labels + ['Data']
 
     ax1.get_xaxis().set_visible(False)                                                                                               
@@ -44,7 +44,7 @@ def plot_datamc_muoncr(h, name, title, log=True, blind=False):
 
     # ratio                                                                                                                   
     ax2 = fig.add_subplot(212)
-    hist.plotratio(num=h.integrate('process','muondata'),denom=h.integrate('process',mc),ax=ax2,unc='num',error_opts={'marker':'o','c':'k','markersize':5},guide_opts={})
+    hist.plotratio(num=h.integrate('process','muondata'),denom=h.integrate('process',mc),ax=ax2,unc='num',error_opts={'marker':'o','color':'k','markersize':5},guide_opts={})
     ax2.set_ylabel('Ratio')                                                    
     ax2.set_xlim(ax1.get_xlim())
 
@@ -53,20 +53,6 @@ def plot_datamc_muoncr(h, name, title, log=True, blind=False):
 
     pdf_name = name+'.pdf'
     plt.savefig(pdf_name,bbox_inches='tight')
-
-def plot_vbfcr(h, cuts, name, title, log=True):
-    fig = plt.figure()
-    plt.suptitle(title)
-    
-    sr = h.integrate('region','signal').integrate('deta',int_range=slice(3.5,7)).integrate('mjj',int_range=slice(1000,4000))
-
-    hist.plot1d(sr,line_opts={'color':'black'}, density=True)
-     
-    cr = h.integrate('region','muoncontrol').integrate('deta',int_range=slice(3,7)).integrate('mjj',int_range=slice(900,4000))
-
-    hist.plot1d(cr,fill_opts={'color':'red'}, density=True)
-
-    return
 
 def plot_syst(h, syst, title, name, log=True):
     fig = plt.figure()
@@ -145,7 +131,9 @@ def plot_mconly_inc(h, name, title, log=True):
 
     sig = h.integrate('process',['ggF','VBF','WH','ZH','ttH'])                                                                      
     hist.plot1d(sig,stack=False,line_opts={'color':'green'})
-    plt.legend(['Higgs']+labels,bbox_to_anchor=(1.05, 1), loc='upper left')
+
+    labels = ['Process'] + labels + ['Higgs']
+    plt.legend(labels,bbox_to_anchor=(1.05, 1), loc='upper left')
     ax.set_ylim(0,1000000)
 
     if log:
@@ -165,8 +153,9 @@ def plot_mconly_vbf(h, name, title, log=True):
 
     ax = fig.add_subplot(111)
 
+    # https://matplotlib.org/stable/gallery/color/named_colors.html                                                             
     labels = ['bkg H', 'VV','single t','tt','W+jets','Z+jets','QCD']
-    mc = ['QCD','Wjets','Zjets','ttbar','singlet','VV',['ggF','ZH','WH','ttH']]
+    mc = ['QCD','Wjets','Zjets','ttbar','singlet','VV', ['ttH','WH','ZH','ggF']]
     colors=['gray','deepskyblue','blue','purple','hotpink','darkorange','gold']
 
     if log:
@@ -174,17 +163,18 @@ def plot_mconly_vbf(h, name, title, log=True):
         colors = [x for x in reversed(colors)]
         labels = [x for x in reversed(labels)]
 
-    # https://matplotlib.org/stable/gallery/color/named_colors.html                             
+    # Plot stacked hist                                                                                                         
     hist.plot1d(h,order=mc,stack=True,fill_opts={'color':colors,'edgecolor':'black'})
 
     sig = h.integrate('process','VBF')
-    hist.plot1d(sig,stack=False,line_opts={'c':'green'})
-    plt.legend(['VBF']+labels,bbox_to_anchor=(1.05, 1), loc='upper left')
+    hist.plot1d(sig,stack=False,line_opts={'color':'green'})
+    labels = labels + ['VBF']
+    plt.legend(labels,bbox_to_anchor=(1.05, 1), loc='upper left')
     ax.set_ylim(0,1000000)
 
     if log:
         ax.set_yscale('log')
-        ax.set_ylim(0.01,1000000)
+        ax.set_ylim(0.01,10000000)
 
     # save as name
     png_name = name+'.png'
@@ -212,7 +202,7 @@ def plot_mconly_vh(h, name, title, log=True):
     hist.plot1d(h,order=mc,stack=True,fill_opts={'color':colors,'edgecolor':'black'})
 
     sig = h.integrate('process',['WH','ZH'])
-    hist.plot1d(sig,stack=False,line_opts={'c':'green'})
+    hist.plot1d(sig,stack=False,line_opts={'color':'green'})
     plt.legend(['VH']+labels,bbox_to_anchor=(1.05, 1), loc='upper left')
     ax.set_ylim(0,1000000)
 
@@ -283,8 +273,8 @@ def plot_2d(h, xtitle, name, title, log=False):
     w = h.values()[()]
 
     ax[1,0].hist2d(X.flatten(),Y.flatten(),weights=w.flatten(),bins=bins)
-    ax[1,0].set_xlabel('Jet 1 ' + xtitle)
-    ax[1,0].set_ylabel('Jet 2 ' + xtitle)
+    ax[1,0].set_xlabel('Jet 2 ' + xtitle)
+    ax[1,0].set_ylabel('Jet 1 ' + xtitle)
 
     png_name = name+'_'+xtitle+'_2d.png'
     plt.savefig(png_name,bbox_inches='tight')
