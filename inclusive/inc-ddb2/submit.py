@@ -17,13 +17,13 @@ def main():
     tag = 'inclusive'
     script = 'process-one.py'
 
-    homedir = '/store/user/jennetd/march-2021/'
-    indir = '/store/user/jennetd/march-2021/infiles-split/'
-    outdir = homedir + tag + '/outfiles/'
+    homedir = '/store/user/jennetd/may-2021/'
+    indir = '/store/user/jennetd/may-2021/infiles-split/'
+    outdir = homedir + tag + '/outfiles-ddb2/'
 
     # copy processor files
     os.system('rm -r boostedhiggs')
-    os.system('cp -r boostedhiggs-vbf-branch/boostedhiggs/ .')
+    os.system('cp -r boostedhiggs-inc/boostedhiggs/ .')
     
     # make local directory
     locdir = logdir
