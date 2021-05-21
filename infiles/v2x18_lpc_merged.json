@@ -134,7 +134,7 @@
 	"root://cmseos.fnal.gov:1094//store/group/lpcpfnano/jennetd/v2nano18/VBFHToBB_M-125_13TeV_powheg_pythia8_weightfix/nano_mc2018_1-9.root",
 	"root://cmseos.fnal.gov:1094//store/group/lpcpfnano/jennetd/v2nano18/VBFHToBB_M-125_13TeV_powheg_pythia8_weightfix/nano_mc2018_1.root",
 	"root://cmseos.fnal.gov:1094//store/group/lpcpfnano/jennetd/v2nano18/VBFHToBB_M-125_13TeV_powheg_pythia8_weightfix/nano_mc2018_2.root",
-	"root://cmseos.fnal.gov:1094//store/group/lpcpfnano/jennetd/v2nano18/VBFHToBB_M-125_13TeV_powheg_pythia8_weightfix/nano_mc2018_33.root",
+	"root://cmseos.fnal.gov:1094//store/group/lpcpfnano/jennetd/v2nano18/VBFHToBB_M-125_13TeV_powheg_pythia8_weightfix/nano_mc2018_33.root"
     ],
     "ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8": [
 	"root://cmseos.fnal.gov:1094//store/group/lpcpfnano/jennetd/v2nano18/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8/nano_mc2018_1-100.root",
@@ -200,6 +200,7 @@
 	"root://cmseos.fnal.gov:1094//store/group/lpcpfnano/jennetd/v2nano18/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8/nano_mc2018_1-20.root",
 	"root://cmseos.fnal.gov:1094//store/group/lpcpfnano/jennetd/v2nano18/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8/nano_mc2018_1-21.root",
 	"root://cmseos.fnal.gov:1094//store/group/lpcpfnano/jennetd/v2nano18/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8/nano_mc2018_1-23.root",
+    "root://cmseos.fnal.gov:1094//store/group/lpcpfnano/jennetd/v2nano18/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8/nano_mc2018_1-24.root",
 	"root://cmseos.fnal.gov:1094//store/group/lpcpfnano/jennetd/v2nano18/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8/nano_mc2018_1-25.root",
 	"root://cmseos.fnal.gov:1094//store/group/lpcpfnano/jennetd/v2nano18/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8/nano_mc2018_1-26.root",
 	"root://cmseos.fnal.gov:1094//store/group/lpcpfnano/jennetd/v2nano18/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8/nano_mc2018_1-27.root",
@@ -299,7 +300,7 @@
 	"root://cmseos.fnal.gov:1094//store/group/lpcpfnano/jennetd/v2nano18/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8/nano_mc2018_51.root",
 	"root://cmseos.fnal.gov:1094//store/group/lpcpfnano/jennetd/v2nano18/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8/nano_mc2018_52.root",
 	"root://cmseos.fnal.gov:1094//store/group/lpcpfnano/jennetd/v2nano18/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8/nano_mc2018_53.root",
-	"root://cmseos.fnal.gov:1094//store/group/lpcpfnano/jennetd/v2nano18/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8/nano_mc2018_5.root",
+	"root://cmseos.fnal.gov:1094//store/group/lpcpfnano/jennetd/v2nano18/ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8/nano_mc2018_5.root"
     ],
     "DYJetsToLL_M-50_HT-1200to2500_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8": [
         "root://cmseos.fnal.gov:1094//store/group/lpcpfnano/anovak/v2nano18/DYJetsToLL_M-50_HT-1200to2500_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/nano_mc2018_12_a677915bd61e6c9ff968b87c36658d9d_0.root",
