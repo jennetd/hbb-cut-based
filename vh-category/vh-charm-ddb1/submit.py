@@ -14,7 +14,7 @@ def main():
     loc_base = os.environ['PWD']
     logdir = 'logs'
 
-    tag = 'vbf-muon'
+    tag = 'vh-charm-category'
     script = 'process-one.py'
 
     homedir = '/store/user/jennetd/may-2021/'
@@ -23,7 +23,7 @@ def main():
 
     # copy processor files
     os.system('rm -r boostedhiggs')
-    os.system('cp -r boostedhiggs-vbf/boostedhiggs/ .')
+    os.system('cp -r boostedhiggs-vhhad/boostedhiggs/ .')
     
     # make local directory
     locdir = logdir
