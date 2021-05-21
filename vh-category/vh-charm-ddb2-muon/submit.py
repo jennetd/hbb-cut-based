@@ -14,16 +14,16 @@ def main():
     loc_base = os.environ['PWD']
     logdir = 'logs'
 
-    tag = 'inclusive-muon'
+    tag = 'vh-charm-muon'
     script = 'process-one.py'
 
     homedir = '/store/user/jennetd/may-2021/'
     indir = '/store/user/jennetd/may-2021/infiles-split/'
-    outdir = homedir + tag + '/outfiles/'
+    outdir = homedir + tag + '/outfiles-ddb2/'
 
     # copy processor files
     os.system('rm -r boostedhiggs')
-    os.system('cp -r boostedhiggs-inc/boostedhiggs/ .')
+    os.system('cp -r boostedhiggs-vhhad/boostedhiggs/ .')
     
     # make local directory
     locdir = logdir
