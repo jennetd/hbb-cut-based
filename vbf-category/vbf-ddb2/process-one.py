@@ -29,7 +29,7 @@ def main():
 #    client = Client(cluster)
 
     from coffea import processor, util, hist
-    from boostedhiggs import VBFmuProcessor
+    from boostedhiggs import VBFProcessor
 
     infiles=subprocess.getoutput("ls infiles-split/"+year+"_"+str(index)+".json").split()
 
@@ -38,7 +38,7 @@ def main():
     for this_file in infiles:
         print(this_file)
 
-        p = VBFmuProcessor(year=year)
+        p = VBFProcessor(year=year,btagV2=True)
 #        args = {'client': client, 'savemetrics':True, 'schema':NanoAODSchema, 'align_clusters':True, 'retries': 1}
         args = {'savemetrics':True, 'schema':NanoAODSchema, 'retries': 1}
         

@@ -14,12 +14,12 @@ def main():
     loc_base = os.environ['PWD']
     logdir = 'logs'
 
-    tag = 'vbf-muon'
+    tag = 'vbf-category'
     script = 'process-one.py'
 
-    homedir = '/store/user/jennetd/march-2021/'
-    indir = '/store/user/jennetd/march-2021/infiles-split/'
-    outdir = homedir + tag + '/outfiles/'
+    homedir = '/store/user/jennetd/may-2021/'
+    indir = '/store/user/jennetd/may-2021/infiles-split/'
+    outdir = homedir + tag + '/outfiles-ddb2/'
 
     # copy processor files
     os.system('rm -r boostedhiggs')
