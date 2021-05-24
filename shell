@@ -7,6 +7,6 @@ else
   export COFFEA_IMAGE=$1
 fi
 
-singularity exec -B ${PWD}:/srv -B /uscmst1b_scratch -B /eos/uscms/store/user/jennetd/march-2021:/myeosdir --pwd /srv \
+singularity exec -B ${PWD}:/srv -B /uscmst1b_scratch -B /eos/uscms/store/user/jennetd/may-2021:/myeosdir --pwd /srv \
   /cvmfs/unpacked.cern.ch/registry.hub.docker.com/${COFFEA_IMAGE} \
   /bin/bash --rcfile /srv/.bashrc
