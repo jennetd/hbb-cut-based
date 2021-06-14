@@ -210,6 +210,31 @@ def get_xs():
     xs['ggZH_HToBB_ZToNuNu_M125_13TeV_powheg_pythia8'] = 1.227E-01*5.824E-01*0.201030
     xs['ggZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8'] = 1.227E-01*5.82E-01*(1.-3.*0.0335962-0.201030)
     xs['ggZH_HToBB_ZToLL_M125_13TeV_powheg_pythia8'] = 1.227E-01*5.824E-01*0.0335962*3.
+
+    # BSM samples
+    xs['WHiggs0L1f05ph0ToBB_M125_13TeV_JHUgenV7011_pythia8'] = 0
+    xs['WHiggs0L1ToBB_M125_13TeV_JHUgenV7011_pythia8'] = 0
+    xs['WHiggs0Mf05ph0ToBB_M125_13TeV_JHUGenV7011_pythia8'] = 0
+    xs['WHiggs0MToBB_M125_13TeV_JHUGenV7011_pythia8'] = 0
+    xs['WHiggs0PHf05ph0ToBB_M125_13TeV_JHUgenV7011_pythia8'] = 0
+    xs['WHiggs0PHToBB_M125_13TeV_JHUGenV7011_pythia8'] = 0
+    xs['WHiggs0PMToBB_M125_13TeV_JHUGenV7011_pythia8'] = 0
+
+    xs['ZHiggs0L1f05ph0ToBB_M125_13TeV_JHUgenV7011_pythia8'] = 0
+    xs['ZHiggs0L1ToBB_M125_13TeV_JHUgenV7011_pythia8'] = 0
+    xs['ZHiggs0Mf05ph0ToBB_M125_13TeV_JHUGenV7011_pythia8'] = 0
+    xs['ZHiggs0MToBB_M125_13TeV_JHUGenV7011_pythia8'] = 0
+    xs['ZHiggs0PHf05ph0ToBB_M125_13TeV_JHUgenV7011_pythia8'] = 0
+    xs['ZHiggs0PHToBB_M125_13TeV_JHUGenV7011_pythia8'] = 0
+    xs['ZHiggs0PMToBB_M125_13TeV_JHUGenV7011_pythia8'] = 0
+
+    xs['VBFHiggs0L1f05ph0ToBB_M125_13TeV_JHUGenV7011_pythia8'] = 0
+    xs['VBFHiggs0L1ToBB_M125_13TeV_JHUgenV7011_pythia8'] = 0
+    xs['VBFHiggs0Mf05ph0ToBB_M125_13TeV_JHUGenV7011_pythia8'] = 0
+    xs['VBFHiggs0MToBB_M125_13TeV_JHUGenV7011_pythia8'] = 0
+    xs['VBFHiggs0PHf05ph0ToBB_M125_13TeV_JHUgenV7011_pythia8'] = 0
+    xs['VBFHiggs0PHToBB_M125_13TeV_JHUGenV7011_pythia8'] = 0
+    xs['VBFHiggs0PMToBB_M125_13TeV_JHUGenV7011_pythia8'] = 0
     
     with open('xsec.json', 'w') as outfile:
         json.dump(xs, outfile)
@@ -330,6 +355,30 @@ def get_pmap(mconly=False):
                        'ST_t-channel_antitop_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8',
                        'ST_t-channel_top_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8',]
     
+    pmap['VBF_0L1f05ph0'] = ['VBFHiggs0L1f05ph0ToBB_M125_13TeV_JHUGenV7011_pythia8']
+    pmap['VBF_0L1'] = ['VBFHiggs0L1ToBB_M125_13TeV_JHUgenV7011_pythia8']
+    pmap['VBF_0Mf05ph0'] = ['VBFHiggs0Mf05ph0ToBB_M125_13TeV_JHUGenV7011_pythia8']
+    pmap['VBF_0M'] = ['VBFHiggs0MToBB_M125_13TeV_JHUGenV7011_pythia8']
+    pmap['VBF_0PHf05ph0'] = ['VBFHiggs0PHf05ph0ToBB_M125_13TeV_JHUgenV7011_pythia8'] 
+    pmap['VBF_0PH'] = ['VBFHiggs0PHToBB_M125_13TeV_JHUGenV7011_pythia8']
+    pmap['VBF_0PM'] = ['VBFHiggs0PMToBB_M125_13TeV_JHUGenV7011_pythia8']
+    
+    pmap['WH_0L1f05ph0'] = ['WHiggs0L1f05ph0ToBB_M125_13TeV_JHUgenV7011_pythia8']
+    pmap['WH_0L1'] = ['WHiggs0L1ToBB_M125_13TeV_JHUgenV7011_pythia8']
+    pmap['WH_0Mf05ph0'] = ['WHiggs0Mf05ph0ToBB_M125_13TeV_JHUGenV7011_pythia8']
+    pmap['WH_0M'] = ['WHiggs0MToBB_M125_13TeV_JHUGenV7011_pythia8']
+    pmap['WH_0PHf0tph0'] = ['WHiggs0PHf05ph0ToBB_M125_13TeV_JHUgenV7011_pythia8']
+    pmap['WH_0PH'] = ['WHiggs0PHToBB_M125_13TeV_JHUGenV7011_pythia8']
+    pmap['WH_0PM'] = ['WHiggs0PMToBB_M125_13TeV_JHUGenV7011_pythia8'] 
+
+    pmap['ZH_0Lf05ph0'] = ['ZHiggs0L1f05ph0ToBB_M125_13TeV_JHUgenV7011_pythia8']
+    pmap['ZH_0L1'] = ['ZHiggs0L1ToBB_M125_13TeV_JHUgenV7011_pythia8'] 
+    pmap['ZH_0Mf05ph0'] = ['ZHiggs0Mf05ph0ToBB_M125_13TeV_JHUGenV7011_pythia8']
+    pmap['ZH_0M'] = ['ZHiggs0MToBB_M125_13TeV_JHUGenV7011_pythia8'] 
+    pmap['ZH_0PHf05ph0'] = ['ZHiggs0PHf05ph0ToBB_M125_13TeV_JHUgenV7011_pythia8']
+    pmap['ZH_0PH'] = ['ZHiggs0PHToBB_M125_13TeV_JHUGenV7011_pythia8']
+    pmap['ZH_0PM'] = ['ZHiggs0PMToBB_M125_13TeV_JHUGenV7011_pythia8']
+
     if mconly:
         with open('pmap_mc.json', 'w') as outfile:
             json.dump(pmap, outfile)
