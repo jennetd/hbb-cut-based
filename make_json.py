@@ -228,13 +228,13 @@ def get_xs():
     xs['ZHiggs0PHToBB_M125_13TeV_JHUGenV7011_pythia8'] = 0
     xs['ZHiggs0PMToBB_M125_13TeV_JHUGenV7011_pythia8'] = 0
 
-    xs['VBFHiggs0L1f05ph0ToBB_M125_13TeV_JHUGenV7011_pythia8'] = 0
-    xs['VBFHiggs0L1ToBB_M125_13TeV_JHUgenV7011_pythia8'] = 0
-    xs['VBFHiggs0Mf05ph0ToBB_M125_13TeV_JHUGenV7011_pythia8'] = 0
-    xs['VBFHiggs0MToBB_M125_13TeV_JHUGenV7011_pythia8'] = 0
-    xs['VBFHiggs0PHf05ph0ToBB_M125_13TeV_JHUgenV7011_pythia8'] = 0
-    xs['VBFHiggs0PHToBB_M125_13TeV_JHUGenV7011_pythia8'] = 0
-    xs['VBFHiggs0PMToBB_M125_13TeV_JHUGenV7011_pythia8'] = 0
+    xs['VBFHiggs0L1f05ph0ToBB_M125_13TeV_JHUGenV7011_pythia8'] = 3.782*5.824E-01
+    xs['VBFHiggs0L1ToBB_M125_13TeV_JHUgenV7011_pythia8'] = 3.782*5.824E-01
+    xs['VBFHiggs0Mf05ph0ToBB_M125_13TeV_JHUGenV7011_pythia8'] = 3.782*5.824E-01
+    xs['VBFHiggs0MToBB_M125_13TeV_JHUGenV7011_pythia8'] = 3.782*5.824E-01
+    xs['VBFHiggs0PHf05ph0ToBB_M125_13TeV_JHUgenV7011_pythia8'] = 3.782*5.824E-01
+    xs['VBFHiggs0PHToBB_M125_13TeV_JHUGenV7011_pythia8'] = 3.782*5.824E-01
+    xs['VBFHiggs0PMToBB_M125_13TeV_JHUGenV7011_pythia8'] = 3.782*5.824E-01
     
     with open('xsec.json', 'w') as outfile:
         json.dump(xs, outfile)
