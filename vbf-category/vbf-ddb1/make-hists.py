@@ -22,13 +22,6 @@ systematics = ['nominal',
               ]
 
 ddbthr = 0.89
-
-deta_cut = 3.5
-mjj_cut = 1000
-
-deta_cut_mucr = 0
-mjj_cut_mucr = 0
-
 coffeadir_prefix = '/myeosdir/vbf-category/outfiles/'
 
 # Main method
@@ -70,7 +63,6 @@ def main():
         
     scale_lumi = {k: xs[k] * 1000 *lumis[year] / w for k, w in outsum['sumw'].items()} 
     outsum['templates-vbf'].scale(scale_lumi, 'dataset')
-    print(outsum['templates-vbf'].identifiers('dataset'))
     templates = outsum['templates-vbf'].group('dataset', hist.Cat('process', 'Process'), pmap)
           
     outfile = open(picklename, 'wb')
@@ -78,34 +70,46 @@ def main():
     outfile.close()
 
     # Read the histogram from the pickle file
-    templates = pickle.load(open(picklename,'rb'))
-    vbf = templates.integrate('region','signal').integrate('deta',int_range=slice(deta_cut,7)).integrate('mjj',int_range=slice(mjj_cut,4000))
-    mucr = templates.integrate('region','muoncontrol').integrate('deta',int_range=slice(deta_cut_mucr,7)).integrate('mjj',int_range=slice(mjj_cut_mucr,4000))
+    vbf = pickle.load(open(picklename,'rb')).integrate('region','signal').integrate('deta',int_range=slice(3.5,7)).integrate('mjj',int_range=slice(1000,4000))
+    mucr = pickle.load(open(picklename,'rb')).integrate('region','muoncontrol').sum('deta','mjj')
     
     print("1 PT BIN SR")
     if os.path.isfile(year+'/1-signalregion.root'):
         os.remove(year+'/1-signalregion.root')
     fout = uproot3.create(year+'/1-signalregion.root')
 
-    for p in pmap.keys():  
-        if 'VBF_' in p or 'WH_' in p or 'ZH_' in p:
-            continue
-    
+    data = ['data','muondata']
+    for p in data:
         print(p)
-        if "data" in p:
-            s = "nominal"
-            h = vbf.sum('pt1').integrate('systematic',s).integrate('ddb1',int_range=slice(ddbthr,1)).integrate('process',p)
+        s = "nominal"
+        h = vbf.sum('pt1','genflavor').integrate('systematic',s).integrate('ddb1',int_range=slice(ddbthr,1)).integrate('process',p)
+        fout["pass_"+p+"_"+s] = hist.export1d(h)
+        h = vbf.sum('pt1','genflavor').integrate('systematic',s).integrate('ddb1',int_range=slice(0,ddbthr)).integrate('process',p)
+        fout["fail_"+p+"_"+s] = hist.export1d(h)
+        
+    mc = ['QCD','ttbar','singlet','VV','ggF','VBF','WH','ZH','ttH']
 
+    for p in mc:      
+        print(p)
+        for s in systematics:
+            h = vbf.sum('pt1','genflavor').integrate('systematic',s).integrate('ddb1',int_range=slice(ddbthr,1)).integrate('process',p)
             fout["pass_"+p+"_"+s] = hist.export1d(h)
-            h = vbf.sum('pt1').integrate('systematic',s).integrate('ddb1',int_range=slice(0,ddbthr)).integrate('process',p)
+            h = vbf.sum('pt1','genflavor').integrate('systematic',s).integrate('ddb1',int_range=slice(0,ddbthr)).integrate('process',p)
             fout["fail_"+p+"_"+s] = hist.export1d(h)
-        else:
-            for s in systematics:
-                h = vbf.sum('pt1').integrate('systematic',s).integrate('ddb1',int_range=slice(ddbthr,1)).integrate('process',p)
-                fout["pass_"+p+"_"+s] = hist.export1d(h)
-                h = vbf.sum('pt1').integrate('systematic',s).integrate('ddb1',int_range=slice(0,ddbthr)).integrate('process',p)
-                fout["fail_"+p+"_"+s] = hist.export1d(h)
-                
+            
+    for p in ['Wjets','Zjets']:
+        print(p)
+        for s in systematics:
+            h = vbf.sum('pt1').integrate('genflavor',int_range=slice(3,4)).integrate('systematic',s).integrate('ddb1',int_range=slice(ddbthr,1)).integrate('process',p)
+            fout["pass_"+p+"bb_"+s] = hist.export1d(h)
+            h = vbf.sum('pt1').integrate('genflavor',int_range=slice(3,4)).integrate('systematic',s).integrate('ddb1',int_range=slice(0,ddbthr)).integrate('process',p)
+            fout["fail_"+p+"bb_"+s] = hist.export1d(h)
+
+            h = vbf.sum('pt1').integrate('genflavor',int_range=slice(0,3)).integrate('systematic',s).integrate('ddb1',int_range=slice(ddbthr,1)).integrate('process',p)
+            fout["pass_"+p+"_"+s] = hist.export1d(h)
+            h = vbf.sum('pt1').integrate('genflavor',int_range=slice(0,3)).integrate('systematic',s).integrate('ddb1',int_range=slice(0,ddbthr)).integrate('process',p)
+            fout["fail_"+p+"_"+s] = hist.export1d(h)
+
     fout.close()
 
     print("2 PT BINS SR")
@@ -116,24 +120,36 @@ def main():
     fout = uproot3.create(year+'/2pt-signalregion.root')
 
     for i,b in enumerate(ptbins[:-1]):
-        for p in pmap.keys(): 
-            if 'VBF_' in p or 'WH_' in p or 'ZH_' in p:
-                continue
+
+        for p in data:
+            s = "nominal"
+            h = vbf.sum('genflavor').integrate('systematic',s).integrate('pt1',int_range=slice(ptbins[i],ptbins[i+1])).integrate('ddb1',int_range=slice(ddbthr,1)).integrate('process',p)
+            fout["pass_pt"+str(i+1)+"_"+p+"_"+s] = hist.export1d(h)
+            h = vbf.sum('genflavor').integrate('systematic',s).integrate('pt1',int_range=slice(ptbins[i],ptbins[i+1])).integrate('ddb1',int_range=slice(0,ddbthr)).integrate('process',p)
+            fout["fail_pt"+str(i+1)+"_"+p+"_"+s] = hist.export1d(h)
+            
+        for p in mc: 
         
             print(p)
-            if "data" in p:
-                s = "nominal"
-                h = vbf.integrate('systematic',s).integrate('pt1',int_range=slice(ptbins[i],ptbins[i+1])).integrate('ddb1',int_range=slice(ddbthr,1)).integrate('process',p)
+            for s in systematics:
+                h = vbf.sum('genflavor').integrate('systematic',s).integrate('pt1',int_range=slice(ptbins[i],ptbins[i+1])).integrate('ddb1',int_range=slice(ddbthr,1)).integrate('process',p)
                 fout["pass_pt"+str(i+1)+"_"+p+"_"+s] = hist.export1d(h)
-                h = vbf.integrate('systematic',s).integrate('pt1',int_range=slice(ptbins[i],ptbins[i+1])).integrate('ddb1',int_range=slice(0,ddbthr)).integrate('process',p)
+                h = vbf.sum('genflavor').integrate('systematic',s).integrate('pt1',int_range=slice(ptbins[i],ptbins[i+1])).integrate('ddb1',int_range=slice(0,ddbthr)).integrate('process',p)
                 fout["fail_pt"+str(i+1)+"_"+p+"_"+s] = hist.export1d(h)
-            else:
-                for s in systematics:
-                    h = vbf.integrate('systematic',s).integrate('pt1',int_range=slice(ptbins[i],ptbins[i+1])).integrate('ddb1',int_range=slice(ddbthr,1)).integrate('process',p)
-                    fout["pass_pt"+str(i+1)+"_"+p+"_"+s] = hist.export1d(h)
-                    h = vbf.integrate('systematic',s).integrate('pt1',int_range=slice(ptbins[i],ptbins[i+1])).integrate('ddb1',int_range=slice(0,ddbthr)).integrate('process',p)
-                    fout["fail_pt"+str(i+1)+"_"+p+"_"+s] = hist.export1d(h)
-                    
+                
+        for p in ['Wjets','Zjets']:
+            print(p)
+            for s in systematics:
+                h = vbf.integrate('genflavor',int_range=slice(3,4)).integrate('systematic',s).integrate('pt1',int_range=slice(ptbins[i],ptbins[i+1])).integrate('ddb1',int_range=slice(ddbthr,1)).integrate('process',p)
+                fout["pass_pt"+str(i+1)+"_"+p+"bb_"+s] = hist.export1d(h)
+                h = vbf.integrate('genflavor',int_range=slice(3,4)).integrate('systematic',s).integrate('pt1',int_range=slice(ptbins[i],ptbins[i+1])).integrate('ddb1',int_range=slice(0,ddbthr)).integrate('process',p)
+                fout["fail_pt"+str(i+1)+"_"+p+"bb_"+s] = hist.export1d(h)
+
+                h = vbf.integrate('genflavor',int_range=slice(0,3)).integrate('systematic',s).integrate('pt1',int_range=slice(ptbins[i],ptbins[i+1])).integrate('ddb1',int_range=slice(ddbthr,1)).integrate('process',p)
+                fout["pass_pt"+str(i+1)+"_"+p+"_"+s] = hist.export1d(h)
+                h = vbf.integrate('genflavor',int_range=slice(0,3)).integrate('systematic',s).integrate('pt1',int_range=slice(ptbins[i],ptbins[i+1])).integrate('ddb1',int_range=slice(0,ddbthr)).integrate('process',p)
+                fout["fail_pt"+str(i+1)+"_"+p+"_"+s] = hist.export1d(h)
+
     fout.close()
 
     print("MUON CR")
@@ -141,24 +157,35 @@ def main():
         os.remove(year+'/muonCR.root')
     fout = uproot3.create(year+'/muonCR.root')
 
-    for p in pmap.keys():  
-        if 'VBF_' in p or 'WH_' in p or 'ZH_' in p:
-            continue
-            
+    for p in data:
         print(p)
-        if "data" in p:
-            s = "nominal"
-            h = mucr.integrate('systematic',s).sum('pt1').integrate('ddb1',int_range=slice(ddbthr,1)).integrate('process',p)
+        s = "nominal"
+        h = mucr.integrate('systematic',s).sum('pt1','genflavor').integrate('ddb1',int_range=slice(ddbthr,1)).integrate('process',p)
+        fout["pass_"+p+"_"+s] = hist.export1d(h)
+        h = mucr.integrate('systematic',s).sum('pt1','genflavor').integrate('ddb1',int_range=slice(0,ddbthr)).integrate('process',p)
+        fout["fail_"+p+"_"+s] = hist.export1d(h)
+
+    for p in mc:
+        print(p)
+        for s in systematics:
+            h = mucr.integrate('systematic',s).sum('pt1','genflavor').integrate('ddb1',int_range=slice(ddbthr,1)).integrate('process',p)
             fout["pass_"+p+"_"+s] = hist.export1d(h)
-            h = mucr.integrate('systematic',s).sum('pt1').integrate('ddb1',int_range=slice(0,ddbthr)).integrate('process',p)
+            h = mucr.integrate('systematic',s).sum('pt1','genflavor').integrate('ddb1',int_range=slice(0,ddbthr)).integrate('process',p)
             fout["fail_"+p+"_"+s] = hist.export1d(h)
-        else:
-            for s in systematics:
-                h = mucr.integrate('systematic',s).sum('pt1').integrate('ddb1',int_range=slice(ddbthr,1)).integrate('process',p)
-                fout["pass_"+p+"_"+s] = hist.export1d(h)
-                h = mucr.integrate('systematic',s).sum('pt1').integrate('ddb1',int_range=slice(0,ddbthr)).integrate('process',p)
-                fout["fail_"+p+"_"+s] = hist.export1d(h)
-    
+            
+    for p in ['Wjets','Zjets']:
+        print(p)
+        for s in systematics:
+            h = mucr.integrate('systematic',s).sum('pt1').integrate('genflavor',int_range=slice(3,4)).integrate('ddb1',int_range=slice(ddbthr,1)).integrate('process',p)
+            fout["pass_"+p+"bb_"+s] = hist.export1d(h)
+            h = mucr.integrate('systematic',s).sum('pt1').integrate('genflavor',int_range=slice(3,4)).integrate('ddb1',int_range=slice(0,ddbthr)).integrate('process',p)
+            fout["fail_"+p+"bb_"+s] = hist.export1d(h)
+
+            h = mucr.integrate('systematic',s).sum('pt1').integrate('genflavor',int_range=slice(0,3)).integrate('ddb1',int_range=slice(ddbthr,1)).integrate('process',p)
+            fout["pass_"+p+"_"+s] = hist.export1d(h)
+            h = mucr.integrate('systematic',s).sum('pt1').integrate('genflavor',int_range=slice(0,3)).integrate('ddb1',int_range=slice(0,ddbthr)).integrate('process',p)
+            fout["fail_"+p+"_"+s] = hist.export1d(h)
+
     fout.close()
 
     return
