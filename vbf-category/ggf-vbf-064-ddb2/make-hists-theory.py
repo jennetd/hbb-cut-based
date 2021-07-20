@@ -54,7 +54,7 @@ def main():
     outsum = processor.dict_accumulator()
 
     # Check if pickle exists, remove it if it does
-    picklename = 'pickles/'+str(year)+'_templates.pkl'
+    picklename = 'pickles/'+str(year)+'_templates-th.pkl'
     if os.path.isfile(picklename):
         os.remove(picklename)
 
@@ -87,23 +87,9 @@ def main():
     mucr = pickle.load(open(picklename,'rb')).integrate('region','muoncontrol')
     
     print("1 PT BIN SR")
-    if os.path.isfile(year+'/1-signalregion.root'):
-        os.remove(year+'/1-signalregion.root')
-    fout = uproot3.create(year+'/1-signalregion.root')
-
-    data = ['data','muondata']
-    for p in data:
-        print(p)
-        s = "nominal"
-        h = vbf.sum('pt1','genflavor').integrate('systematic',s).integrate('ddb1',int_range=slice(ddbthr,1)).integrate('process',p)
-        fout["vbf_pass_"+p+"_"+s] = hist.export1d(h)
-        h = vbf.sum('pt1','genflavor').integrate('systematic',s).integrate('ddb1',int_range=slice(0,ddbthr)).integrate('process',p)
-        fout["vbf_fail_"+p+"_"+s] = hist.export1d(h)
-        
-        h = ggf.sum('pt1','genflavor').integrate('systematic',s).integrate('ddb1',int_range=slice(ddbthr,1)).integrate('process',p)
-        fout["ggf_pass_"+p+"_"+s] = hist.export1d(h)
-        h = ggf.sum('pt1','genflavor').integrate('systematic',s).integrate('ddb1',int_range=slice(0,ddbthr)).integrate('process',p)
-        fout["ggf_fail_"+p+"_"+s] = hist.export1d(h)
+    if os.path.isfile(year+'/1-signalregion-th.root'):
+        os.remove(year+'/1-signalregion-th.root')
+    fout = uproot3.create(year+'/1-signalregion-th.root')
 
     mc = ['QCD','ttbar','singlet','VV','ggF','VBF','WH','ZH','ttH']
 
@@ -153,24 +139,12 @@ def main():
 
     print("2 PT BINS SR")
     ptbins = [450, 550, 1200]
-    if os.path.isfile(year+'/2pt-signalregion.root'):
-        os.remove(year+'/2pt-signalregion.root')
+    if os.path.isfile(year+'/2pt-signalregion-th.root'):
+        os.remove(year+'/2pt-signalregion-th.root')
 
-    fout = uproot3.create(year+'/2pt-signalregion.root')
+    fout = uproot3.create(year+'/2pt-signalregion-th.root')
 
     for i,b in enumerate(ptbins[:-1]):
-
-        for p in data:
-            s = "nominal"
-            h = vbf.sum('genflavor').integrate('systematic',s).integrate('pt1',int_range=slice(ptbins[i],ptbins[i+1])).integrate('ddb1',int_range=slice(ddbthr,1)).integrate('process',p)
-            fout["vbf_pass_pt"+str(i+1)+"_"+p+"_"+s] = hist.export1d(h)
-            h = vbf.sum('genflavor').integrate('systematic',s).integrate('pt1',int_range=slice(ptbins[i],ptbins[i+1])).integrate('ddb1',int_range=slice(0,ddbthr)).integrate('process',p)
-            fout["vbf_fail_pt"+str(i+1)+"_"+p+"_"+s] = hist.export1d(h)
-            
-            h = ggf.sum('genflavor').integrate('systematic',s).integrate('pt1',int_range=slice(ptbins[i],ptbins[i+1])).integrate('ddb1',int_range=slice(ddbthr,1)).integrate('process',p)
-            fout["ggf_pass_pt"+str(i+1)+"_"+p+"_"+s] = hist.export1d(h)
-            h = ggf.sum('genflavor').integrate('systematic',s).integrate('pt1',int_range=slice(ptbins[i],ptbins[i+1])).integrate('ddb1',int_range=slice(0,ddbthr)).integrate('process',p)
-            fout["ggf_fail_pt"+str(i+1)+"_"+p+"_"+s] = hist.export1d(h)
 
         for p in mc: 
             print(p)
@@ -218,17 +192,9 @@ def main():
     fout.close()
 
     print("MUON CR")
-    if os.path.isfile(year+'/muonCR.root'):
-        os.remove(year+'/muonCR.root')
-    fout = uproot3.create(year+'/muonCR.root')
-
-    for p in data:
-        print(p)
-        s = "nominal"
-        h = mucr.integrate('systematic',s).sum('pt1','genflavor').integrate('ddb1',int_range=slice(ddbthr,1)).integrate('process',p)
-        fout["pass_"+p+"_"+s] = hist.export1d(h)
-        h = mucr.integrate('systematic',s).sum('pt1','genflavor').integrate('ddb1',int_range=slice(0,ddbthr)).integrate('process',p)
-        fout["fail_"+p+"_"+s] = hist.export1d(h)
+    if os.path.isfile(year+'/muonCR-th.root'):
+        os.remove(year+'/muonCR-th.root')
+    fout = uproot3.create(year+'/muonCR-th.root')
 
     for p in mc:
         print(p)
