@@ -212,30 +212,37 @@ def get_xs():
     xs['ggZH_HToBB_ZToLL_M125_13TeV_powheg_pythia8'] = 1.227E-01*5.824E-01*0.0335962*3.
 
     # BSM samples
-    xs['WHiggs0L1f05ph0ToBB_M125_13TeV_JHUgenV7011_pythia8'] = 0
-    xs['WHiggs0L1ToBB_M125_13TeV_JHUgenV7011_pythia8'] = 0
-    xs['WHiggs0Mf05ph0ToBB_M125_13TeV_JHUGenV7011_pythia8'] = 0
-    xs['WHiggs0MToBB_M125_13TeV_JHUGenV7011_pythia8'] = 0
-    xs['WHiggs0PHf05ph0ToBB_M125_13TeV_JHUgenV7011_pythia8'] = 0
-    xs['WHiggs0PHToBB_M125_13TeV_JHUGenV7011_pythia8'] = 0
-    xs['WHiggs0PMToBB_M125_13TeV_JHUGenV7011_pythia8'] = 0
+    whxs =  xs['WminusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8'] + xs['WplusH_HToBB_WToQQ_M125_13TeV_powheg_pythia8'] + xs['WminusH_HToBB_WToLNu_M125_13TeV_powheg_pythia8'] + xs['WplusH_HToBB_WToLNu_M125_13TeV_powheg_pythia8'] 
+    xs['WHiggs0L1f05ph0ToBB_M125_13TeV_JHUgenV7011_pythia8'] = whxs
+    xs['WHiggs0L1ToBB_M125_13TeV_JHUgenV7011_pythia8'] = whxs
+    xs['WHiggs0Mf05ph0ToBB_M125_13TeV_JHUGenV7011_pythia8'] = whxs
+    xs['WHiggs0MToBB_M125_13TeV_JHUGenV7011_pythia8'] = whxs
+    xs['WHiggs0PHf05ph0ToBB_M125_13TeV_JHUgenV7011_pythia8'] = whxs
+    xs['WHiggs0PHToBB_M125_13TeV_JHUGenV7011_pythia8'] = whxs
+    xs['WHiggs0PMToBB_M125_13TeV_JHUGenV7011_pythia8'] = whxs
 
-    xs['ZHiggs0L1f05ph0ToBB_M125_13TeV_JHUgenV7011_pythia8'] = 0
-    xs['ZHiggs0L1ToBB_M125_13TeV_JHUgenV7011_pythia8'] = 0
-    xs['ZHiggs0Mf05ph0ToBB_M125_13TeV_JHUGenV7011_pythia8'] = 0
-    xs['ZHiggs0MToBB_M125_13TeV_JHUGenV7011_pythia8'] = 0
-    xs['ZHiggs0PHf05ph0ToBB_M125_13TeV_JHUgenV7011_pythia8'] = 0
-    xs['ZHiggs0PHToBB_M125_13TeV_JHUGenV7011_pythia8'] = 0
-    xs['ZHiggs0PMToBB_M125_13TeV_JHUGenV7011_pythia8'] = 0
+    zhxs = xs['ZH_HToBB_ZToQQ_M125_13TeV_powheg_pythia8'] + xs['ZH_HToBB_ZToLL_M125_13TeV_powheg_pythia8'] + xs['ZH_HToBB_ZToNuNu_M125_13TeV_powheg_pythia8'] 
+    xs['ZHiggs0L1f05ph0ToBB_M125_13TeV_JHUgenV7011_pythia8'] = zhxs
+    xs['ZHiggs0L1ToBB_M125_13TeV_JHUgenV7011_pythia8'] = zhxs
+    xs['ZHiggs0Mf05ph0ToBB_M125_13TeV_JHUGenV7011_pythia8'] = zhxs
+    xs['ZHiggs0MToBB_M125_13TeV_JHUGenV7011_pythia8'] = zhxs
+    xs['ZHiggs0PHf05ph0ToBB_M125_13TeV_JHUgenV7011_pythia8'] = zhxs
+    xs['ZHiggs0PHToBB_M125_13TeV_JHUGenV7011_pythia8'] = zhxs
+    xs['ZHiggs0PMToBB_M125_13TeV_JHUGenV7011_pythia8'] = zhxs
 
-    xs['VBFHiggs0L1f05ph0ToBB_M125_13TeV_JHUGenV7011_pythia8'] = 3.782*5.824E-01
-    xs['VBFHiggs0L1ToBB_M125_13TeV_JHUgenV7011_pythia8'] = 3.782*5.824E-01
-    xs['VBFHiggs0Mf05ph0ToBB_M125_13TeV_JHUGenV7011_pythia8'] = 3.782*5.824E-01
-    xs['VBFHiggs0MToBB_M125_13TeV_JHUGenV7011_pythia8'] = 3.782*5.824E-01
-    xs['VBFHiggs0PHf05ph0ToBB_M125_13TeV_JHUgenV7011_pythia8'] = 3.782*5.824E-01
-    xs['VBFHiggs0PHToBB_M125_13TeV_JHUGenV7011_pythia8'] = 3.782*5.824E-01
-    xs['VBFHiggs0PMToBB_M125_13TeV_JHUGenV7011_pythia8'] = 3.782*5.824E-01
+    vbfxs = xs['VBFHToBB_M-125_13TeV_powheg_pythia8_weightfix']
+    xs['VBFHiggs0L1f05ph0ToBB_M125_13TeV_JHUGenV7011_pythia8'] = vbfxs
+    xs['VBFHiggs0L1ToBB_M125_13TeV_JHUgenV7011_pythia8'] = vbfxs
+    xs['VBFHiggs0Mf05ph0ToBB_M125_13TeV_JHUGenV7011_pythia8'] = vbfxs
+    xs['VBFHiggs0MToBB_M125_13TeV_JHUGenV7011_pythia8'] = vbfxs
+    xs['VBFHiggs0PHf05ph0ToBB_M125_13TeV_JHUgenV7011_pythia8'] = vbfxs
+    xs['VBFHiggs0PHToBB_M125_13TeV_JHUGenV7011_pythia8'] = vbfxs
     
+    ggfxs = xs['GluGluHToBB_M-125_13TeV_powheg_MINLO_NNLOPS_pythia8']
+    xs['JJH0Mf05ph0ToBB_M-125_13TeV_JHUGenV7011_pythia8'] = ggfxs
+    xs['JJH0MToBB_M-125_13TeV_JHUGenV7011_pythia8'] = ggfxs
+    xs['JJH0PMToBB_M-125_13TeV_JHUGenV7011_pythia8'] = ggfxs
+
     with open('xsec.json', 'w') as outfile:
         json.dump(xs, outfile)
 
@@ -379,6 +386,10 @@ def get_pmap(mconly=False):
     pmap['ZH_0PH'] = ['ZHiggs0PHToBB_M125_13TeV_JHUGenV7011_pythia8']
     pmap['ZH_0PM'] = ['ZHiggs0PMToBB_M125_13TeV_JHUGenV7011_pythia8']
 
+    pmap['ggH_0Mf05ph0'] = ['JJH0Mf05ph0ToBB_M-125_13TeV_JHUGenV7011_pythia8']
+    pmap['ggH_0M'] = ['JJH0MToBB_M-125_13TeV_JHUGenV7011_pythia8']
+    pmap['ggH_0PM'] = ['JJH0PMToBB_M-125_13TeV_JHUGenV7011_pythia8']
+    
     if mconly:
         with open('pmap_mc.json', 'w') as outfile:
             json.dump(pmap, outfile)
