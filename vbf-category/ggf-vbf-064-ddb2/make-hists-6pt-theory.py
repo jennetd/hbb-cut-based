@@ -44,46 +44,11 @@ def main():
 
     year = sys.argv[1]
 
-    with open('xsec.json') as f:
-        xs = json.load(f)
-        
-    with open('pmap.json') as f:
-        pmap = json.load(f)
-            
-    nfiles = len(subprocess.getoutput("ls infiles-split/"+year+"*.json").split())
-    outsum = processor.dict_accumulator()
-
-    # Check if pickle exists, remove it if it does
-    picklename = 'pickles/'+str(year)+'_templates.pkl'
-    if os.path.isfile(picklename):
-        os.remove(picklename)
-
-    nfiles = len(subprocess.getoutput("ls infiles-split/"+year+"*.json").split())
-    for n in range(1,nfiles+1):
-
-        with open('infiles-split/'+year+'_'+str(n)+'.json') as f:
-            infiles = json.load(f)
-    
-        filename = coffeadir_prefix+year+'_'+str(n)+'.coffea'
-        if os.path.isfile(filename):
-            out = util.load(filename)
-            outsum.add(out)
-        else:
-            print('Missing file '+str(n),infiles.keys())
-            #print("File " + filename + " is missing")
-        
-    scale_lumi = {k: xs[k] * 1000 *lumis[year] / w for k, w in outsum['sumw'].items()} 
-    outsum['templates'].scale(scale_lumi, 'dataset')
-    templates = outsum['templates'].group('dataset', hist.Cat('process', 'Process'), pmap)
-          
-    outfile = open(picklename, 'wb')
-    pickle.dump(templates, outfile, protocol=-1)
-    outfile.close()
+    picklename = 'pickles/'+str(year)+'_templates-th.pkl'
 
     # Read the histogram from the pickle file
     ggf = pickle.load(open(picklename,'rb')).integrate('region','signal-ggf').integrate('mjj',overflow='allnan')
     vbf = pickle.load(open(picklename,'rb')).integrate('region','signal-vbf').integrate('mjj',overflow='allnan')
-    mucr = pickle.load(open(picklename,'rb')).integrate('region','muoncontrol')
     
     if os.path.isfile(year+'/6pt1-signalregion-th.root'):
         os.remove(year+'/6pt1-signalregion-th.root')
@@ -92,7 +57,7 @@ def main():
     mc = ['QCD','ttbar','singlet','VV','ggF','VBF','WH','ZH','ttH']
 
     print("1 PT BIN for VBF SR")
-    i = 0
+    i = 0        
     for p in mc:      
         print(p)
         for s in systematics:
@@ -103,7 +68,13 @@ def main():
             
     for p in ['Wjets','Zjets']:
         print(p)
-        for s in systematics:
+
+        if 'W' in p:
+            systematics_boson = systematics + systematics_Wjets
+        if 'Z' in p:
+            systematics_boson = systematics + systematics_Zjets
+
+        for s in systematics_boson:
             h = vbf.sum('pt1').integrate('genflavor',int_range=slice(3,4)).integrate('systematic',s).integrate('ddb1',int_range=slice(ddbthr,1)).integrate('process',p)
             fout["vbf_pass_pt"+str(i+1)+"_"+p+"bb_"+s] = hist.export1d(h)
             h = vbf.sum('pt1').integrate('genflavor',int_range=slice(3,4)).integrate('systematic',s).integrate('ddb1',int_range=slice(0,ddbthr)).integrate('process',p)
@@ -130,8 +101,13 @@ def main():
 
         for p in ['Wjets','Zjets']:
             print(p)
+            
+            if 'W' in p:
+                systematics_boson = systematics + systematics_Wjets
+            if 'Z' in p:
+                systematics_boson = systematics + systematics_Zjets
 
-            for s in systematics:
+            for s in systematics_boson:
                 h = ggf.integrate('genflavor',int_range=slice(3,4)).integrate('systematic',s).integrate('pt1',int_range=slice(ptbins[i],ptbins[i+1])).integrate('ddb1',int_range=slice(ddbthr,1)).integrate('process',p)
                 fout["ggf_pass_pt"+str(i+1)+"_"+p+"bb_"+s] = hist.export1d(h)
                 h = ggf.integrate('genflavor',int_range=slice(3,4)).integrate('systematic',s).integrate('pt1',int_range=slice(ptbins[i],ptbins[i+1])).integrate('ddb1',int_range=slice(0,ddbthr)).integrate('process',p)
