@@ -17,8 +17,8 @@ def main():
     tag = 'ggf-vbf-theory'
     script = 'process-one.py'
 
-    homedir = '/store/user/jennetd/may-2021/'
-    indir = '/store/user/jennetd/may-2021/infiles-split/'
+    homedir = '/store/user/jennetd/july-2021/'
+    indir = '/store/user/jennetd/july-2021/infiles-split/'
     outdir = homedir + tag + '/outfiles-ddb2/'
 
     # copy processor files
