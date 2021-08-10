@@ -23,7 +23,7 @@ systematics = ['nominal',
               ]
 
 ddbthr = 0.64
-coffeadir_prefix = 'outfiles/' #'/myeosdir/ggf-vbf/outfiles-ddb2/'
+coffeadir_prefix = '/myeosdir/ggf-vbf/outfiles-ddb2/'
 
 # Main method
 def main():
@@ -82,8 +82,6 @@ def main():
     vbf = pickle.load(open(picklename,'rb')).integrate('region','signal-vbf')
     mucr = pickle.load(open(picklename,'rb')).integrate('region','muoncontrol')
 
-    print(ggf.identifiers('systematic'))
-    
     print("1 PT BIN SR")
     if os.path.isfile(year+'/1-signalregion.root'):
         os.remove(year+'/1-signalregion.root')
@@ -95,7 +93,6 @@ def main():
         s = "nominal"
 
         h = vbf.sum('pt1','mjj','genflavor').integrate('systematic',s).integrate('ddb1',int_range=slice(ddbthr,1)).integrate('process',p)
-        print(h)
         fout["vbf_pass_"+p+"_"+s] = hist.export1d(h)
         h = vbf.sum('pt1','mjj','genflavor').integrate('systematic',s).integrate('ddb1',int_range=slice(0,ddbthr)).integrate('process',p)
         fout["vbf_fail_"+p+"_"+s] = hist.export1d(h)
