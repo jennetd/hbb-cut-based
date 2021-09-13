@@ -28,9 +28,17 @@ coffeadir_prefix = '/myeosdir/ggf-vbf/outfiles-ddb2/'
 # Main method
 def main():
 
-    if len(sys.argv) != 2:
+    raw = False
+
+    if len(sys.argv) < 2:
         print("Enter year")
-        return 
+        return
+    elif len(sys.argv) == 3:
+        if int(sys.argv[2]) > 0:
+            raw = True
+    elif len(sys.argv) > 3:
+        print("Incorrect number of arguments")
+        return
 
     year = sys.argv[1]
 
@@ -50,10 +58,10 @@ def main():
         return
 
     # Read the histogram from the pickle file
-    ggf = pickle.load(open(picklename,'rb')).integrate('region','signal-ggf')
     vbf = pickle.load(open(picklename,'rb')).integrate('region','signal-vbf')
-    mucr = pickle.load(open(picklename,'rb')).integrate('region','muoncontrol')
     
+    if raw:
+        year = year+"-raw"
     if os.path.isfile(year+'/2mjj-signalregion.root'):
         os.remove(year+'/2mjj-signalregion.root')
     fout = uproot3.create(year+'/2mjj-signalregion.root')
@@ -62,7 +70,7 @@ def main():
     mc = ['QCD','ttbar','singlet','VV','ggF','VBF','WH','ZH','ttH']
 
     print("2 MJJ BINS SR")
-    mjjbins = [1000,2000,4000]
+    mjjbins = [1000,2000,10000]
     for i,b in enumerate(mjjbins[:-1]):
 
         for p in data:
@@ -77,11 +85,23 @@ def main():
         for p in mc:
             print(p)
 
-            for s in systematics:
-                h = vbf.sum('pt1','genflavor').integrate('systematic',s).integrate('mjj',int_range=slice(mjjbins[i],mjjbins[i+1])).integrate('ddb1',int_range=slice(ddbthr,1)).integrate('process',p)
-                fout["vbf_pass_mjj"+str(i+1)+"_"+p+"_"+s] = hist.export1d(h)
-                h = vbf.sum('pt1','genflavor').integrate('systematic',s).integrate('mjj',int_range=slice(mjjbins[i],mjjbins[i+1])).integrate('ddb1',int_range=slice(0,ddbthr)).integrate('process',p)
-                fout["vbf_fail_mjj"+str(i+1)+"_"+p+"_"+s] = hist.export1d(h)
+            if year == '2016' and p == 'ggF' and not raw:
+                print("Taking shape for 2016 ggF from 2017")
+                vbf17 = pickle.load(open('pickles/2017_templates.pkl','rb')).integrate('region','signal-vbf')
+                vbf17.scale(lumis['2016']/lumis['2017'])
+
+                for s in systematics:
+                    h = vbf17.sum('pt1','genflavor').integrate('systematic',s).integrate('mjj',int_range=slice(mjjbins[i],mjjbins[i+1])).integrate('ddb1',int_range=slice(ddbthr,1)).integrate('process',p)
+                    fout["vbf_pass_mjj"+str(i+1)+"_"+p+"_"+s] = hist.export1d(h)
+                    h = vbf17.sum('pt1','genflavor').integrate('systematic',s).integrate('mjj',int_range=slice(mjjbins[i],mjjbins[i+1])).integrate('ddb1',int_range=slice(0,ddbthr)).integrate('process',p)
+                    fout["vbf_fail_mjj"+str(i+1)+"_"+p+"_"+s] = hist.export1d(h)
+
+            else:
+                for s in systematics:
+                    h = vbf.sum('pt1','genflavor').integrate('systematic',s).integrate('mjj',int_range=slice(mjjbins[i],mjjbins[i+1])).integrate('ddb1',int_range=slice(ddbthr,1)).integrate('process',p)
+                    fout["vbf_pass_mjj"+str(i+1)+"_"+p+"_"+s] = hist.export1d(h)
+                    h = vbf.sum('pt1','genflavor').integrate('systematic',s).integrate('mjj',int_range=slice(mjjbins[i],mjjbins[i+1])).integrate('ddb1',int_range=slice(0,ddbthr)).integrate('process',p)
+                    fout["vbf_fail_mjj"+str(i+1)+"_"+p+"_"+s] = hist.export1d(h)
 
         for p in ['Wjets','Zjets']:
             print(p)
