@@ -29,7 +29,7 @@ def main():
 #    client = Client(cluster)
 
     from coffea import processor, util, hist
-    from boostedhiggs import HbbPlotsProcessor
+    from boostedhiggs import HbbPlotProcessor
 
     infiles=subprocess.getoutput("ls infiles-split/"+year+"_"+str(index)+".json").split()
 
@@ -38,9 +38,9 @@ def main():
     for this_file in infiles:
         print(this_file)
 
-        p = HbbPlotsProcessor(year=year,btagV2=True)
+        p = HbbPlotProcessor(year=year,tagger='v2')
 #        args = {'client': client, 'savemetrics':True, 'schema':NanoAODSchema, 'align_clusters':True, 'retries': 1}
-        args = {'savemetrics':True, 'schema':NanoAODSchema, 'retries': 1}
+        args = {'savemetrics':True, 'schema':NanoAODSchema}
         
 #        print("Waiting for at least one worker...")
 #        client.wait_for_workers(1)

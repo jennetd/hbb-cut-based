@@ -24,10 +24,6 @@ def main():
     year = sys.argv[1]
     index = sys.argv[2]
 
-#    cluster = LPCCondorCluster(transfer_input_files="boostedhiggs")
-#    cluster.adapt(minimum=1, maximum=200)
-#    client = Client(cluster)
-
     from coffea import processor, util, hist
     from boostedhiggs import HbbTheoryProcessor
 
@@ -38,16 +34,10 @@ def main():
     for this_file in infiles:
         print(this_file)
 
-        p = HbbTheoryProcessor(year=year,btagV2=True)
-#        args = {'client': client, 'savemetrics':True, 'schema':NanoAODSchema, 'align_clusters':True, 'retries': 1}
+        p = HbbTheoryProcessor(year=year,tagger='v2')
         args = {'savemetrics':True, 'schema':NanoAODSchema, 'retries': 1}
         
-#        print("Waiting for at least one worker...")
-#        client.wait_for_workers(1)
-#        out, metrics = processor.run_uproot_job(str(this_file), 'Events', p, processor.dask_executor, args, chunksize=10000)
-
         out, metrics = processor.run_uproot_job(str(this_file), 'Events', p, processor.futures_executor, args, chunksize=10000) 
-
         print(f"Output: {out}")
         print(f"Metrics: {metrics}")
 
