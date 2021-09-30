@@ -14,13 +14,30 @@ lumis['2016'] = 35.9
 lumis['2017'] = 41.5
 lumis['2018'] = 59.2
 
-systematics = ['nominal',
-               'jet_triggerUp','jet_triggerDown','mu_triggerUp','mu_triggerDown',
-               'btagWeightUp','btagWeightDown','btagEffStatUp','btagEffStatDown',
-               'UESUp','UESDown','JESUp','JESDown','JERUp','JERDown',
-               'pileup_weightUp','pileup_weightDown',
-               'mu_idweightUp','mu_idweightDown','mu_isoweightUp','mu_isoweightDown',
-              ]
+
+systematics = [
+    'nominal',
+    'jet_triggerUp','jet_triggerDown','mu_triggerUp','mu_triggerDown',
+    'btagWeightUp','btagWeightDown','btagEffStatUp','btagEffStatDown',
+    'UESUp','UESDown','JESUp','JESDown','JERUp','JERDown',
+    'pileup_weightUp','pileup_weightDown',
+    'mu_idweightUp','mu_idweightDown','mu_isoweightUp','mu_isoweightDown',
+    'UEPS_ISRUp','UEPS_ISRDown','UEPS_FSRUp','UEPS_FSRDown',
+    'PDF_weightUp','PDF_weightDown',
+    'scalevar_7ptUp','scalevar_7ptDown','scalevar_3ptUp','scalevar_3ptDown'
+    ]
+
+systematics_Wjets = [
+    'W_d2kappa_EWDown','W_d2kappa_EWUp','W_d3kappa_EWDown','W_d3kappa_EWUp',
+    'd1K_NLODown','d1K_NLOUp','d1kappa_EWDown','d1kappa_EWUp',
+    'd2K_NLODown','d2K_NLOUp','d3K_NLODown','d3K_NLOUp',
+    ]
+
+systematics_Zjets = [
+    'Z_d2kappa_EWDown','Z_d2kappa_EWUp','Z_d3kappa_EWDown','Z_d3kappa_EWUp',
+    'd1K_NLODown','d1K_NLOUp','d1kappa_EWDown','d1kappa_EWUp',
+    'd2K_NLODown','d2K_NLOUp','d3K_NLODown','d3K_NLOUp',
+    ]
 
 ddbthr = 0.64
 coffeadir_prefix = '/myeosdir/ggf-vbf/outfiles-ddb2/'
@@ -107,7 +124,12 @@ def main():
         for p in ['Wjets','Zjets']:
             print(p)
 
-            for s in systematics:
+            if 'W' in p:
+                systematics_boson = systematics + systematics_Wjets
+            if 'Z' in p:
+                systematics_boson = systematics + systematics_Zjets
+
+            for s in systematics_boson:
                 h = ggf.integrate('genflavor',int_range=slice(3,4)).integrate('systematic',s).integrate('pt1',int_range=slice(ptbins[i],ptbins[i+1])).integrate('ddb1',int_range=slice(ddbthr,1)).integrate('process',p)
                 fout["ggf_pass_pt"+str(i+1)+"_"+p+"bb_"+s] = hist.export1d(h)
                 h = ggf.integrate('genflavor',int_range=slice(3,4)).integrate('systematic',s).integrate('pt1',int_range=slice(ptbins[i],ptbins[i+1])).integrate('ddb1',int_range=slice(0,ddbthr)).integrate('process',p)

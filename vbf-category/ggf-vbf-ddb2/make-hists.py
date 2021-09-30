@@ -14,13 +14,29 @@ lumis['2016'] = 35.9
 lumis['2017'] = 41.5
 lumis['2018'] = 59.2
 
-systematics = ['nominal',
-               'jet_triggerUp','jet_triggerDown','mu_triggerUp','mu_triggerDown',
-               'btagWeightUp','btagWeightDown','btagEffStatUp','btagEffStatDown',
-               'UESUp','UESDown','JESUp','JESDown','JERUp','JERDown',
-               'pileup_weightUp','pileup_weightDown',
-               'mu_idweightUp','mu_idweightDown','mu_isoweightUp','mu_isoweightDown',
-              ]
+systematics = [
+    'nominal',
+    'jet_triggerUp','jet_triggerDown','mu_triggerUp','mu_triggerDown',
+    'btagWeightUp','btagWeightDown','btagEffStatUp','btagEffStatDown',
+    'UESUp','UESDown','JESUp','JESDown','JERUp','JERDown',
+    'pileup_weightUp','pileup_weightDown',
+    'mu_idweightUp','mu_idweightDown','mu_isoweightUp','mu_isoweightDown',
+    'UEPS_ISRUp','UEPS_ISRDown','UEPS_FSRUp','UEPS_FSRDown',
+    'PDF_weightUp','PDF_weightDown',
+    'scalevar_7ptUp','scalevar_7ptDown','scalevar_3ptUp','scalevar_3ptDown'
+]
+
+systematics_Wjets = [
+    'W_d2kappa_EWDown','W_d2kappa_EWUp','W_d3kappa_EWDown','W_d3kappa_EWUp',
+    'd1K_NLODown','d1K_NLOUp','d1kappa_EWDown','d1kappa_EWUp',
+    'd2K_NLODown','d2K_NLOUp','d3K_NLODown','d3K_NLOUp',
+    ]
+
+systematics_Zjets = [
+    'Z_d2kappa_EWDown','Z_d2kappa_EWUp','Z_d3kappa_EWDown','Z_d3kappa_EWUp',
+    'd1K_NLODown','d1K_NLOUp','d1kappa_EWDown','d1kappa_EWUp',
+    'd2K_NLODown','d2K_NLOUp','d3K_NLODown','d3K_NLOUp',
+    ]
 
 ddbthr = 0.64
 coffeadir_prefix = '/myeosdir/ggf-vbf/outfiles-ddb2/'
@@ -52,9 +68,11 @@ def main():
     outsum = processor.dict_accumulator()
 
     # Check if pickle exists, remove it if it does
-    picklename = 'pickles/'+str(year)+'_templates.pkl'
+    picklename = str(year)+'/templates.pkl'
     if os.path.isfile(picklename):
         os.remove(picklename)
+
+    eosdir = '/eos/uscms/store/user/jennetd/october-2021/ggf-vbf/histograms/'
 
     nfiles = len(subprocess.getoutput("ls infiles-split/"+year+"*.json").split())
     for n in range(1,nfiles+1):
@@ -119,9 +137,9 @@ def main():
         print(p)
         if year == '2016' and p == 'ggF' and not raw:
             print("Taking shape for 2016 ggF from 2017")
-            ggf17 = pickle.load(open('pickles/2017_templates.pkl','rb')).integrate('region','signal-ggf').integrate('mjj',overflow='allnan')
+            ggf17 = pickle.load(open(eosdir+'/2017/templates.pkl','rb')).integrate('region','signal-ggf').integrate('mjj',overflow='allnan')
             ggf17.scale(lumis['2016']/lumis['2017'])
-            vbf17 = pickle.load(open('pickles/2017_templates.pkl','rb')).integrate('region','signal-vbf').integrate('mjj',overflow='allnan')
+            vbf17 = pickle.load(open(eosdir+'2017/templates.pkl','rb')).integrate('region','signal-vbf').integrate('mjj',overflow='allnan')
             vbf17.scale(lumis['2016']/lumis['2017'])
             
             for s in systematics:
@@ -149,7 +167,13 @@ def main():
             
     for p in ['Wjets','Zjets']:
         print(p)
-        for s in systematics:
+
+        if 'W' in p:
+            systematics_boson = systematics + systematics_Wjets
+        if 'Z' in p:
+            systematics_boson = systematics + systematics_Zjets
+
+        for s in systematics_boson:
             h = vbf.sum('pt1').integrate('genflavor',int_range=slice(3,4)).integrate('systematic',s).integrate('ddb1',int_range=slice(ddbthr,1)).integrate('process',p)
             fout["vbf_pass_"+p+"bb_"+s] = hist.export1d(h)
             h = vbf.sum('pt1').integrate('genflavor',int_range=slice(3,4)).integrate('systematic',s).integrate('ddb1',int_range=slice(0,ddbthr)).integrate('process',p)
@@ -195,7 +219,13 @@ def main():
             
     for p in ['Wjets','Zjets']:
         print(p)
-        for s in systematics:
+
+        if 'W' in p:
+            systematics_boson = systematics + systematics_Wjets
+        if 'Z' in p:
+            systematics_boson = systematics + systematics_Zjets
+
+        for s in systematics_boson:
             h = mucr.integrate('systematic',s).sum('pt1').integrate('genflavor',int_range=slice(3,4)).integrate('ddb1',int_range=slice(ddbthr,1)).integrate('process',p)
             fout["pass_"+p+"bb_"+s] = hist.export1d(h)
             h = mucr.integrate('systematic',s).sum('pt1').integrate('genflavor',int_range=slice(3,4)).integrate('ddb1',int_range=slice(0,ddbthr)).integrate('process',p)

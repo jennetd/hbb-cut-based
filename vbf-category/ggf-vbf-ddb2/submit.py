@@ -17,8 +17,8 @@ def main():
     tag = 'ggf-vbf'
     script = 'process-one.py'
 
-    homedir = '/store/user/jennetd/july-2021/'
-    indir = '/store/user/jennetd/july-2021/infiles-split/'
+    homedir = '/store/user/jennetd/october-2021/'
+    indir = '/store/user/jennetd/october-2021/infiles-split/'
     outdir = homedir + tag + '/outfiles-ddb2/'
 
     # copy processor files
@@ -39,7 +39,6 @@ def main():
     
     for this_file in infiles:
         index = this_file.split("_")[1].split(".json")[0]
-        print(this_file, index)
 
         prefix = year+'_'+str(index)
         print('Submitting '+prefix)
