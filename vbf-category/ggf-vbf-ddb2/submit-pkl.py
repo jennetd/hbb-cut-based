@@ -18,7 +18,6 @@ def main():
     script = 'process-one.py'
 
     homedir = '/store/user/jennetd/october-2021/'
-    indir = '/store/user/jennetd/october-2021/'
     outdir = homedir + tag + '/histograms/'
 
     # make local directory
@@ -30,22 +29,24 @@ def main():
 
     prefix = year + "_hists"
 
-    condor_templ_file = open(loc_base+"/makehists.templ.condor")
-    sh_templ_file    = open(loc_base+"/makehists.templ.sh")
+    condor_templ_file = open(loc_base+"/make-pkl.templ.condor")
+    sh_templ_file    = open(loc_base+"/make-pkl.templ.sh")
 
     localcondor = locdir+'/'+prefix+".condor"
     condor_file = open(localcondor,"w")
     for line in condor_templ_file:
-        line=line.replace('DIRECTORY',locdir)
+        line=line.replace('YEAR',year)
         line=line.replace('PREFIX',prefix)
         condor_file.write(line)
     condor_file.close()
 
     localsh=locdir+'/'+prefix+".sh"
-    eosoutput="root://cmseos.fnal.gov/"+outdir+"/"
+    eosoutput=outdir+"/"
+    eosinput=homedir+tag+"/outfiles-ddb2/"
     sh_file = open(localsh,"w")
     for line in sh_templ_file:
         line=line.replace('YEAR',year)
+        line=line.replace('EOSIN',eosinput)
         line=line.replace('EOSOUT',eosoutput)
         sh_file.write(line)
     sh_file.close()

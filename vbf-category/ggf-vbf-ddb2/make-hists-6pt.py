@@ -59,6 +59,10 @@ def main():
 
     year = sys.argv[1]
 
+    global systematics
+    if year == "2016" or year == "2017":
+        systematics += ['L1PrefiringUp','L1PrefiringDown']
+
     with open('xsec.json') as f:
         xs = json.load(f)
         
@@ -68,15 +72,6 @@ def main():
     nfiles = len(subprocess.getoutput("ls infiles-split/"+year+"*.json").split())
     outsum = processor.dict_accumulator()
 
-    # Check if pickle exists, remove it if it does
-    picklename = 'pickles/'+str(year)+'_templates.pkl'
-    if not os.path.isfile(picklename):
-        print("You need to create the pickle")
-        return
-    
-    # Read the histogram from the pickle file
-    ggf = pickle.load(open(picklename,'rb')).integrate('region','signal-ggf').integrate('mjj',overflow='allnan')
-    
     if raw:
         year = year+"-raw"
     if os.path.isfile(year+'/6pt-signalregion.root'):
@@ -89,6 +84,15 @@ def main():
     print("6 PT BINS ggF SR")
     ptbins = [450, 500, 550, 600, 675, 800, 1200]
 
+    # Check if pickle exists                                                                                                                                                
+    picklename = year+'/templates-data.pkl'
+    if not os.path.isfile(picklename):
+        print("You need to create the pickle")
+        return
+
+    # Read the histogram from the pickle file                                                                                                                          
+    ggf = pickle.load(open(picklename,'rb')).integrate('region','signal-ggf').integrate('mjj',overflow='allnan')
+
     for i,b in enumerate(ptbins[:-1]):
 
         for p in data:
@@ -100,12 +104,22 @@ def main():
             h = ggf.sum('genflavor').integrate('systematic',s).integrate('pt1',int_range=slice(ptbins[i],ptbins[i+1])).integrate('ddb1',int_range=slice(0,ddbthr)).integrate('process',p)
             fout["ggf_fail_pt"+str(i+1)+"_"+p+"_"+s] = hist.export1d(h)
 
+    # Check if pickle exists                                                                                                                                                
+    picklename = year+'/templates-mc.pkl'
+    if not os.path.isfile(picklename):
+        print("You need to create the pickle")
+        return
+
+    # Read the histogram from the pickle file                                                                                                                           
+    ggf = pickle.load(open(picklename,'rb')).integrate('region','signal-ggf').integrate('mjj',overflow='allnan')
+
+    for i,b in enumerate(ptbins[:-1]):
         for p in mc:         
             print(p)
 
             if year == '2016' and p == 'ggF' and not raw:
                 print("Taking shape for 2016 ggF from 2017")
-                ggf17 = pickle.load(open('pickles/2017_templates.pkl','rb')).integrate('region','signal-ggf').integrate('mjj',overflow='allnan')
+                ggf17 = pickle.load(open('2017/templates-mc.pkl','rb')).integrate('region','signal-ggf').integrate('mjj',overflow='allnan')
                 ggf17.scale(lumis['2016']/lumis['2017'])
                 
                 for s in systematics:
