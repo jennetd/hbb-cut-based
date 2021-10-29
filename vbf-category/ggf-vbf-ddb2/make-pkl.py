@@ -1,6 +1,6 @@
 #!/usr/bin/python  
 
-import os, sys
+import os, sys, re
 import subprocess
 import json
 import uproot3
@@ -39,8 +39,8 @@ systematics_Zjets = [
     ]
 
 ddbthr = 0.64
-#coffeadir_prefix = '/myeosdir/ggf-vbf/outfiles-ddb2/'
-coffeadir_prefix = 'outfiles-ddb2/'
+coffeadir_prefix = '/myeosdir/ggf-vbf/outfiles-ddb2/'
+#coffeadir_prefix = 'outfiles-ddb2/'
 
 # Main method
 def main():
@@ -83,29 +83,21 @@ def main():
 
         data = False
 
-        # Jet HT
-        if year == "2016" and n > 221 and n < 464:
-            data = True
-        if year == "2017" and n > 121 and n < 471:
-            data = True
-        if year == "2018" and n > 391 and n < 603:
-            data = True
+        with open(indir+year+'_'+str(n)+'.json') as f:
+            for line in f:
+                if re.search("SingleMuon", line):
+                    data = True
+                if re.search("JetHT", line):
+                    data = True
 
-        if year == "2016" and n > 554 and n < 762:
-            data = True
-        if year == "2017" and n > 1131 and n < 1157:
-            data = True
-        if year == "2018" and n > 1127 and n < 1335:
-            data = True
+        with open(indir+year+'_'+str(n)+'.json') as f:
+            infiles = json.load(f)
 
         if data and mconly:
             continue
         if not data and not mconly:
             continue
-
-        with open(indir+year+'_'+str(n)+'.json') as f:
-            infiles = json.load(f)
-
+        
         filename = coffeadir_prefix+year+'/'+year+'_'+str(n)+'.coffea'
         if os.path.isfile(filename):
             out = util.load(filename)
