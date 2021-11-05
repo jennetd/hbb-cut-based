@@ -78,19 +78,19 @@ def main():
         os.remove(year+'/2mjj-signalregion.root')
     fout = uproot3.create(year+'/2mjj-signalregion.root')
 
-    data = ['data','muondata']
-    mc = ['QCD','ttbar','singlet','VV','ggF','VBF','WH','ZH','ttH']
+    data = ['data','muondata','QCD']
+    mc = ['ttbar','singlet','VV','ggF','VBF','WH','ZH','ttH']
 
     print("2 MJJ BINS SR")
-    mjjbins = [1000,2000,10000]
+    mjjbins = [1000,2000,13000]
 
-    # Check if pickle exists                                                                                                                                           
-    picklename = year+'/templates-data.pkl'
+    # Check if pickle exists     
+    picklename = year+'/templates.pkl'
     if not os.path.isfile(picklename):
         print("You need to create the pickle")
         return
 
-    # Read the histogram from the pickle file                                                                                                                         
+    # Read the histogram from the pickle file
     vbf = pickle.load(open(picklename,'rb')).integrate('region','signal-vbf')
 
     for i,b in enumerate(mjjbins[:-1]):
@@ -103,16 +103,6 @@ def main():
             h = vbf.sum('pt1','genflavor').integrate('systematic',s).integrate('mjj',int_range=slice(mjjbins[i],mjjbins[i+1])).integrate('ddb1',int_range=slice(0,ddbthr)).integrate('process',p)
             fout["vbf_fail_mjj"+str(i+1)+"_"+p+"_"+s] = hist.export1d(h)
 
-    # Check if pickle exists                                                                                                                                              
-    picklename = year+'/templates-mc.pkl'
-    if not os.path.isfile(picklename):
-        print("You need to create the pickle")
-        return
-
-    # Read the histogram from the pickle file                                                                                                                         
-    vbf = pickle.load(open(picklename,'rb')).integrate('region','signal-vbf')
-
-    for i,b in enumerate(mjjbins[:-1]):
         for p in mc:
             print(p)
 

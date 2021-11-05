@@ -84,13 +84,13 @@ def main():
     print("6 PT BINS ggF SR")
     ptbins = [450, 500, 550, 600, 675, 800, 1200]
 
-    # Check if pickle exists                                                                                                                                                
-    picklename = year+'/templates-data.pkl'
+    # Check if pickle exists     
+    picklename = year+'/templates.pkl'
     if not os.path.isfile(picklename):
         print("You need to create the pickle")
         return
 
-    # Read the histogram from the pickle file                                                                                                                          
+    # Read the histogram from the pickle file                                                                      
     ggf = pickle.load(open(picklename,'rb')).integrate('region','signal-ggf').integrate('mjj',overflow='allnan')
 
     for i,b in enumerate(ptbins[:-1]):
@@ -103,15 +103,6 @@ def main():
             fout["ggf_pass_pt"+str(i+1)+"_"+p+"_"+s] = hist.export1d(h)
             h = ggf.sum('genflavor').integrate('systematic',s).integrate('pt1',int_range=slice(ptbins[i],ptbins[i+1])).integrate('ddb1',int_range=slice(0,ddbthr)).integrate('process',p)
             fout["ggf_fail_pt"+str(i+1)+"_"+p+"_"+s] = hist.export1d(h)
-
-    # Check if pickle exists                                                                                                                                                
-    picklename = year+'/templates-mc.pkl'
-    if not os.path.isfile(picklename):
-        print("You need to create the pickle")
-        return
-
-    # Read the histogram from the pickle file                                                                                                                           
-    ggf = pickle.load(open(picklename,'rb')).integrate('region','signal-ggf').integrate('mjj',overflow='allnan')
 
     for i,b in enumerate(ptbins[:-1]):
         for p in mc:         

@@ -18,14 +18,9 @@ env_extra = [
     f"export PYTHONPATH=$PYTHONPATH:{os.getcwd()}",
 ]
 
-cluster = LPCCondorCluster(
-    transfer_input_files=["boostedhiggs"],
-    ship_env=True,
-    memory="6GB",
-#    image="coffeateam/coffea-dask:0.7.8-fastjet-3.3.4.0rc9-g7921522"
-)
+cluster = LPCCondorCluster(transfer_input_files=["boostedhiggs"],ship_env=True,memory="4GB")
+cluster.adapt(minimum=10, maximum=250)
 
-cluster.adapt(minimum=1, maximum=250)
 client = Client(cluster)
 
 print("Waiting for at least one worker...")  # noqa
@@ -39,7 +34,6 @@ with performance_report(filename="dask-report.html"):
     infiles = subprocess.getoutput("ls infiles/"+year+"*.json").split()
 
     for this_file in infiles:
-
         index = this_file.split("_")[1].split(".json")[0]
         print(this_file, index)
 
@@ -63,7 +57,7 @@ with performance_report(filename="dask-report.html"):
             #        maxchunks=args.max,
         )
 
-        outfile = 'outfiles/'+str(year)+'_dask_'+index+'.coffea'
+        outfile = '/uscms/home/cmantill/nobackup/tmp/hbb-cut-based/vbf-category/ggf-vbf-ddb2/outfiles/'+str(year)+'_dask_'+index+'.coffea'
         util.save(output, outfile)
         print("saved " + outfile)
 

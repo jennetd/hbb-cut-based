@@ -1,6 +1,6 @@
 #!/usr/bin/python  
 
-import os, sys
+import os, sys, re
 import subprocess
 import json
 import uproot3
@@ -14,16 +14,19 @@ lumis['2016'] = 35.9
 lumis['2017'] = 41.5
 lumis['2018'] = 59.2
 
+coffeadir_prefix = '/myeosdir/ggf-vbf-plots/outfiles-ddb2/'
+
 # Main method
 def main():
 
     raw = False
 
-    if len(sys.argv) < 2:
-        print("Enter year")
+    if len(sys.argv) < 3:
+        print("Enter year and name")
         return 
 
     year = sys.argv[1]
+    name = sys.argv[2]
 
     with open('xsec.json') as f:
         xs = json.load(f)
@@ -31,37 +34,46 @@ def main():
     with open('pmap.json') as f:
         pmap = json.load(f)
             
-    indir = "outfiles/"
-    infiles = subprocess.getoutput("ls "+indir+year+"*.coffea").split()
+    indir = "infiles-split/"
+    nfiles = len(subprocess.getoutput("ls "+indir+year+"*.json").split())
     outsum = processor.dict_accumulator()
 
     # Check if pickle exists, remove it if it does
-    picklename = str(year)+'/templates.pkl'
+    picklename = str(year)+'/'+name+'.pkl'
     if os.path.isfile(picklename):
         os.remove(picklename)
 
+    nfiles = len(subprocess.getoutput("ls "+indir+year+"*.json").split())
+
     started = 0
-    for filename in infiles:
+    for n in range(1,nfiles+1):
 
-        print("Loading "+filename)
+#        print(n)
+        with open('infiles-split/'+year+'_'+str(n)+'.json') as f:
+            infiles = json.load(f)
 
+        filename = coffeadir_prefix+'/'+year+'/'+year+'_'+str(n)+'.coffea'
         if os.path.isfile(filename):
             out = util.load(filename)
 
             if started == 0:
-                outsum['templates'] = out['templates']
+                outsum[name] = out[name]
                 outsum['sumw'] = out['sumw']
                 started += 1
             else:
-                outsum['templates'].add(out['templates'])
+                outsum[name].add(out[name])
                 outsum['sumw'].add(out['sumw'])
 
             del out
 
+        else:
+            print('Missing file '+str(n),infiles.keys())
+            #print("File " + filename + " is missing")
+        
     scale_lumi = {k: xs[k] * 1000 *lumis[year] / w for k, w in outsum['sumw'].items()} 
 
-    outsum['templates'].scale(scale_lumi, 'dataset')
-    templates = outsum['templates'].group('dataset', hist.Cat('process', 'Process'), pmap)
+    outsum[name].scale(scale_lumi, 'dataset')
+    templates = outsum[name].group('dataset', hist.Cat('process', 'Process'), pmap)
 
     del outsum
           

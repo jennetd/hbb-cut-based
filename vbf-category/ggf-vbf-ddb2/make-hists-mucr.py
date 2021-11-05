@@ -71,8 +71,8 @@ def main():
     nfiles = len(subprocess.getoutput("ls infiles-split/"+year+"*.json").split())
     outsum = processor.dict_accumulator()
 
-    data = ['data','muondata']
-    mc = ['QCD','ttbar','singlet','VV','ggF','VBF','WH','ZH','ttH']
+    data = ['data','muondata','QCD']
+    mc = ['ttbar','singlet','VV','ggF','VBF','WH','ZH','ttH']
 
     print("MUON CR")
     if os.path.isfile(year+'/muonCR.root'):
@@ -80,14 +80,16 @@ def main():
     fout = uproot3.create(year+'/muonCR.root')
 
     # Check if pickle exists                                                                                                                                             
-    picklename = year+'/templates-data.pkl'
+    picklename = year+'/templates.pkl'
     if not os.path.isfile(picklename):
         print("You need to create the pickle")
         return
 
-    # Read the histogram from the pickle file                                                                                                                            
+    # Read the histogram from the pickle file
     mucr = pickle.load(open(picklename,'rb')).integrate('region','muoncontrol').integrate('mjj',overflow='allnan')
 
+    print(mucr.identifiers('systematic'))
+    
     for p in data:
         print(p)
         s = "nominal"
@@ -95,16 +97,6 @@ def main():
         fout["pass_"+p+"_"+s] = hist.export1d(h)
         h = mucr.integrate('systematic',s).sum('pt1','genflavor').integrate('ddb1',int_range=slice(0,ddbthr)).integrate('process',p)
         fout["fail_"+p+"_"+s] = hist.export1d(h)
-
-    # Check if pickle exists                                                                                                                                             
-    picklename = year+'/templates-mc.pkl'
-    if not os.path.isfile(picklename):
-        print("You need to create the pickle")
-        return
-
-    # Read the histogram from the pickle file                                                                                                               
-    mucr = pickle.load(open(picklename,'rb')).integrate('region','muoncontrol').integrate('mjj',overflow='allnan')
-    print(mucr.identifiers('systematic'))
 
     for p in mc:
         print(p)
