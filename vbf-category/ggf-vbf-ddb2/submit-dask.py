@@ -21,8 +21,8 @@ env_extra = [
 cluster = LPCCondorCluster(
     transfer_input_files=["boostedhiggs"],
     ship_env=True,
-    memory="6GB",
-#    image="coffeateam/coffea-dask:0.7.8-fastjet-3.3.4.0rc9-g7921522"
+    memory="10GB",
+    image="coffeateam/coffea-dask:0.7.8-fastjet-3.3.4.0rc9-g7921522"
 )
 
 cluster.adapt(minimum=1, maximum=250)
@@ -39,6 +39,9 @@ with performance_report(filename="dask-report.html"):
     infiles = subprocess.getoutput("ls infiles/"+year+"*.json").split()
 
     for this_file in infiles:
+
+        if 'bsm' in this_file:
+            continue
 
         index = this_file.split("_")[1].split(".json")[0]
         print(this_file, index)
